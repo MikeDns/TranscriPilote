@@ -1,0 +1,24 @@
+name: Proposer une idée
+description: Une nouvelle fonctionnalité ou une amélioration
+labels: ["idée"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Quel besoin ou quel problème ?
+      description: Décrivez la situation qui vous gêne aujourd'hui.
+      placeholder: "Quand je transcris une réunion de 2 h, je dois ..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Ce que vous aimeriez
+      description: Ce que TranscriPilote pourrait faire pour vous.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte
+      description: Comment et pour quoi vous utilisez TranscriPilote.

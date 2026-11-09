@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Signaler un problème de sécurité
+    url: https://github.com/MikeDns/TranscriPilote/security/advisories/new
+    about: En privé, pour ne pas exposer les utilisateurs.
+  - name: Télécharger la dernière version
+    url: https://github.com/MikeDns/TranscriPilote/releases/latest
+    about: Installateur Windows et nouveautés.

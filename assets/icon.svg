@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="TranscriPilote">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b7cf6"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
+  <rect x="32" y="32" width="960" height="960" rx="220" fill="url(#g)"/>
+  <g fill="#fff"><rect x="240" y="362" width="64" height="300" rx="32"/><rect x="336" y="262" width="64" height="500" rx="32"/><rect x="432" y="332" width="64" height="360" rx="32"/></g>
+  <g fill="#fff" fill-opacity="0.78"><rect x="560" y="368" width="232" height="64" rx="32"/><rect x="560" y="480" width="180" height="64" rx="32"/><rect x="560" y="592" width="216" height="64" rx="32"/></g>
+</svg>
