@@ -13,7 +13,6 @@
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icon.png">
-
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="TranscriPilote">
@@ -23,16 +22,23 @@
 <meta property="og:image" content="https://mikedns.github.io/TranscriPilote/assets/social-preview.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="TranscriPilote : transcription et résumé de vos réunions, 100 % sur votre PC">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TranscriPilote — Transcription et résumé de réunions">
-<meta name="twitter:description" content="Gratuit, hors ligne, sans droits administrateur. Pour Windows 10 et 11.">
 <meta name="twitter:image" content="https://mikedns.github.io/TranscriPilote/assets/social-preview.png">
-
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://mikedns.github.io/TranscriPilote/#site",
+      "name": "TranscriPilote",
+      "alternateName": ["Transcri Pilote", "Transcrit Pilote"],
+      "url": "https://mikedns.github.io/TranscriPilote/",
+      "inLanguage": "fr"
+    },
     {
       "@type": "SoftwareApplication",
       "@id": "https://mikedns.github.io/TranscriPilote/#app",
@@ -46,10 +52,8 @@
       "isAccessibleForFree": true,
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
       "downloadUrl": "https://github.com/MikeDns/TranscriPilote/releases/latest",
-      "installUrl": "https://github.com/MikeDns/TranscriPilote/releases/latest",
       "url": "https://mikedns.github.io/TranscriPilote/",
       "image": "https://mikedns.github.io/TranscriPilote/assets/social-preview.png",
-      "screenshot": "https://mikedns.github.io/TranscriPilote/assets/social-preview.png",
       "featureList": [
         "Enregistrement du micro ou de l'audio système (Teams, Zoom, Meet)",
         "Transcription locale sans carte graphique",
@@ -59,277 +63,124 @@
         "Export TXT et SRT",
         "Mises à jour intégrées"
       ],
-      "author": { "@type": "Person", "name": "Mike DANSOU", "url": "https://github.com/MikeDns" },
-      "publisher": { "@type": "Person", "name": "Mike DANSOU", "url": "https://github.com/MikeDns" }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "TranscriPilote est-il gratuit ?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Oui. TranscriPilote est gratuit, sans abonnement ni publicité, pour un usage personnel comme professionnel." }
-        },
-        {
-          "@type": "Question",
-          "name": "Mes réunions sont-elles envoyées sur internet ?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Non. La transcription, les résumés et les questions sont traités sur votre PC. Rien n'est envoyé à un service en ligne, sauf la sauvegarde vers votre propre cloud si vous l'activez." }
-        },
-        {
-          "@type": "Question",
-          "name": "Faut-il une carte graphique ou des droits administrateur ?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Non. TranscriPilote fonctionne sur un PC de bureau ordinaire et s'installe dans le profil Windows de l'utilisateur, sans droits administrateur." }
-        },
-        {
-          "@type": "Question",
-          "name": "Quelles réunions TranscriPilote peut-il transcrire ?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Les réunions en ligne (Teams, Zoom, Meet) via l'audio système, les réunions en présentiel via le micro, et les fichiers audio ou vidéo existants (MP3, M4A, WAV, MP4, MKV, MOV…)." }
-        }
-      ]
+      "author": { "@type": "Person", "name": "Mike DANSOU", "url": "https://github.com/MikeDns" }
     }
   ]
 }
 </script>
-
-<style>
-:root {
-    --bg: #111114; --bg-alt: #17171c; --surface: #1d1d24; --border: #2c2c36;
-    --text: #f1f1f5; --text-2: #b4b4c2; --text-3: #82828f;
-    --accent: #7c6cf0; --accent-2: #4f46e5; --accent-soft: rgba(124, 108, 240, 0.14); --accent-text: #c3b9ff;
-    --success: #3ddc84; --radius: 16px;
-    color-scheme: dark;
-}
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #ffffff; --bg-alt: #f6f6fa; --surface: #ffffff; --border: #e3e3ea;
-        --text: #17171c; --text-2: #4c4c58; --text-3: #7a7a86;
-        --accent: #6553e8; --accent-2: #4f46e5; --accent-soft: rgba(101, 83, 232, 0.10); --accent-text: #4b3bc9;
-        --success: #14894a;
-        color-scheme: light;
-    }
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
-    font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased;
-}
-a { color: var(--accent-text); }
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-header.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 18px; color: var(--text); text-decoration: none; }
-.brand img { width: 32px; height: 32px; }
-nav.links { display: flex; gap: 22px; font-size: 15px; }
-nav.links a { color: var(--text-2); text-decoration: none; }
-nav.links a:hover { color: var(--text); }
-
-.hero { position: relative; padding: 72px 0 88px; text-align: center; overflow: hidden; }
-.hero::before {
-    content: ""; position: absolute; inset: -40% -10% auto; height: 520px; z-index: -1;
-    background: radial-gradient(closest-side, var(--accent-soft), transparent);
-}
-.hero img.logo { width: 112px; height: 112px; filter: drop-shadow(0 18px 40px rgba(79, 70, 229, 0.35)); }
-.hero h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; letter-spacing: -1.5px; margin: 26px 0 14px; }
-.hero p.lead { font-size: clamp(18px, 2.2vw, 22px); color: var(--text-2); max-width: 680px; margin: 0 auto 34px; }
-.cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.btn {
-    display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 12px;
-    font-size: 17px; font-weight: 600; text-decoration: none; transition: transform .12s ease, box-shadow .12s ease;
-}
-.btn svg { width: 20px; height: 20px; }
-.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.35); }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(79, 70, 229, 0.45); }
-.btn-ghost { color: var(--text); border: 1px solid var(--border); background: var(--surface); }
-.btn-ghost:hover { border-color: var(--accent); }
-.meta { margin-top: 18px; font-size: 14px; color: var(--text-3); }
-.badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
-.badges span { font-size: 14px; padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); font-weight: 550; }
-
-section { padding: 76px 0; }
-section.alt { background: var(--bg-alt); }
-section h2 { font-size: clamp(28px, 3.4vw, 38px); letter-spacing: -0.6px; margin: 0 0 12px; text-align: center; }
-section p.sub { text-align: center; color: var(--text-2); max-width: 640px; margin: 0 auto 44px; }
-
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-@media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
-.card .ico {
-    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-    background: var(--accent-soft); color: var(--accent-text); margin-bottom: 14px;
-}
-.card .ico svg { width: 22px; height: 22px; }
-.card h3 { font-size: 18px; margin: 0 0 6px; }
-.card p { margin: 0; color: var(--text-2); font-size: 15.5px; }
-
-.steps { counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-.steps .card::before {
-    counter-increment: step; content: counter(step);
-    display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 700; margin-bottom: 14px;
-}
-
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.check { list-style: none; padding: 0; margin: 0; }
-.check li { padding: 7px 0 7px 30px; position: relative; color: var(--text-2); }
-.check li::before { content: "✓"; position: absolute; left: 0; color: var(--success); font-weight: 700; }
-
-details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
-details summary { cursor: pointer; font-weight: 600; }
-details p { color: var(--text-2); margin: 10px 0 0; }
-
-.final { text-align: center; }
-footer { border-top: 1px solid var(--border); padding: 32px 0; color: var(--text-3); font-size: 14px; }
-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-footer a { color: var(--text-2); text-decoration: none; margin-left: 18px; }
-footer a:first-child { margin-left: 0; }
-
-@media (max-width: 760px) {
-    nav.links { display: none; }
-    .split { grid-template-columns: 1fr; }
-    .hero { padding-top: 40px; }
-}
-</style>
 </head>
 <body>
 
-<header class="wrap top">
+<header class="site-header"><div class="wrap">
     <a class="brand" href="./"><img src="assets/icon.svg" alt="" width="32" height="32">TranscriPilote</a>
-    <nav class="links" aria-label="Navigation principale">
-        <a href="#fonctionnalites">Fonctionnalités</a>
-        <a href="#installation">Installation</a>
-        <a href="#questions">Questions</a>
-        <a href="https://github.com/MikeDns/TranscriPilote/releases">Nouveautés</a>
+    <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="site-nav" aria-label="Navigation principale">
+        <a href="fonctionnalites.html">Fonctionnalités</a>
+        <a href="avantages.html">Avantages</a>
+        <a href="faq.html">FAQ</a>
+        <a class="btn btn-primary" href="telecharger.html">Télécharger</a>
     </nav>
-</header>
+</div></header>
 
 <main>
 <section class="hero">
     <div class="wrap">
-        <img class="logo" src="assets/icon.svg" alt="Logo de TranscriPilote" width="112" height="112">
+        <img class="logo" src="assets/icon.svg" alt="Logo de TranscriPilote" width="104" height="104">
         <h1>TranscriPilote</h1>
-        <p class="lead">Transcription, résumé et analyse de vos réunions, <strong>100 % sur votre PC</strong>.
+        <p class="lead">Vos réunions <strong>transcrites, résumées et analysées</strong> directement sur votre PC.
             Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.</p>
         <div class="cta">
             <a class="btn btn-primary" data-download href="https://github.com/MikeDns/TranscriPilote/releases/latest">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
                 Télécharger pour Windows
             </a>
-            <a class="btn btn-ghost" href="#fonctionnalites">Découvrir</a>
+            <a class="btn btn-ghost" href="#parcours">Voir comment ça marche</a>
         </div>
-        <div class="meta" id="version">Gratuit · Windows 10 et 11 · Installation sans droits administrateur</div>
-        <div class="badges"><span>Gratuit</span><span>Hors ligne</span><span>Sans carte graphique</span><span>Données privées</span></div>
+        <div class="meta" data-version="Gratuit · Windows 10 et 11">Gratuit · Windows 10 et 11 · Installation sans droits administrateur</div>
+        <div class="pills"><span>Gratuit</span><span>Hors ligne</span><span>Sans carte graphique</span><span>Données privées</span></div>
     </div>
 </section>
 
-<section id="fonctionnalites" class="alt">
+<section id="parcours" class="alt">
     <div class="wrap">
-        <h2>Tout pour exploiter vos réunions</h2>
-        <p class="sub">Enregistrez, transcrivez, résumez et interrogez vos réunions Teams, Zoom, Meet ou en présentiel, sans rien envoyer sur internet.</p>
+        <div class="center">
+            <span class="eyebrow">Le parcours d'une réunion</span>
+            <h2 class="section-title">De la parole à l'action, en six étapes</h2>
+            <p class="section-lead">Suivez une réunion du premier mot jusqu'aux décisions à mettre en œuvre. Tout se passe sur votre ordinateur.</p>
+        </div>
+        <div class="journey">
+            <div class="journey-line"><div class="journey-progress"></div></div>
+            <ol>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 1</span><h3>Enregistrez</h3>
+                    <p>Captez une réunion Teams, Zoom ou Meet via l'audio de votre PC, ou une réunion en salle via le micro. Vous pouvez aussi importer un fichier audio ou vidéo.</p>
+                    <a class="more" href="fonctionnalites.html#enregistrement">En savoir plus →</a></div></li>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 2</span><h3>Transcrivez</h3>
+                    <p>La parole devient un texte horodaté, en français ou en anglais, sur un PC ordinaire, sans carte graphique ni connexion.</p>
+                    <a class="more" href="fonctionnalites.html#transcription">En savoir plus →</a></div></li>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 3</span><h3>Identifiez qui parle</h3>
+                    <p>Chaque intervenant est repéré et coloré dans la transcription, pour savoir qui a dit quoi.</p>
+                    <a class="more" href="fonctionnalites.html#locuteurs">En savoir plus →</a></div></li>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 4</span><h3>Résumez</h3>
+                    <p>Une IA locale produit le résumé, les points clés et la liste des actions à faire. Ajoutez du contexte pour un résultat encore plus juste.</p>
+                    <a class="more" href="fonctionnalites.html#resumes">En savoir plus →</a></div></li>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 5</span><h3>Interrogez</h3>
+                    <p>Posez vos questions comme à un assistant : « qui a validé le budget ? », « quelles sont les prochaines étapes ? ».</p>
+                    <a class="more" href="fonctionnalites.html#discussion">En savoir plus →</a></div></li>
+                <li class="step"><span class="dot"></span><div class="step-card reveal">
+                    <span class="step-num">Étape 6</span><h3>Retrouvez et partagez</h3>
+                    <p>Toutes vos réunions restent consultables dans l'historique, exportables en TXT ou SRT, et sauvegardables vers votre propre cloud.</p>
+                    <a class="more" href="fonctionnalites.html#historique">En savoir plus →</a></div></li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="wrap">
+        <div class="center">
+            <span class="eyebrow">Pourquoi TranscriPilote</span>
+            <h2 class="section-title">Pensé pour les réunions qui comptent</h2>
+            <p class="section-lead">Les outils en ligne envoient vos échanges sur leurs serveurs. TranscriPilote garde tout chez vous.</p>
+        </div>
         <div class="grid">
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></div>
-                <h3>Enregistrement</h3><p>Micro ou audio système pour capter une réunion Teams, Zoom ou Meet, pendant que d'autres traitements tournent.</p></div>
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h12M4 18h9"/></svg></div>
-                <h3>Transcription locale</h3><p>Texte horodaté, plusieurs niveaux de précision, sur un PC ordinaire sans carte graphique.</p></div>
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M15 14.5c3 0 6 1.5 6 4.5"/></svg></div>
-                <h3>Qui parle ?</h3><p>Identification automatique des différents intervenants, en option.</p></div>
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg></div>
-                <h3>Résumés par IA</h3><p>Résumé, points clés et actions à faire, générés par une IA locale, avec votre propre contexte.</p></div>
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.5 7.2L4 21l1.8-5.5A8 8 0 1121 12z"/></svg></div>
-                <h3>Discussion</h3><p>Posez vos questions sur une réunion : « qui a validé le budget ? », « quelles sont les prochaines étapes ? ».</p></div>
-            <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H6a1 1 0 00-1 1v16a1 1 0 001 1h12a1 1 0 001-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div>
-                <h3>Import et export</h3><p>Fichiers audio et vidéo (MP3, M4A, WAV, MP4, MKV…), historique consultable, export TXT et SRT.</p></div>
+            <a class="card reveal" href="avantages.html#confidentialite"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
+                <h3>Confidentiel</h3><p>Rien ne quitte votre ordinateur : idéal pour les échanges sensibles et les données clients.</p><span class="more">Découvrir →</span></a>
+            <a class="card reveal" href="avantages.html#gratuit"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H8a2 2 0 110-4c3 0 4 4 4 4zM12 7h4a2 2 0 100-4c-3 0-4 4-4 4z"/></svg></div>
+                <h3>Gratuit</h3><p>Ni abonnement, ni limite de minutes, ni compte à créer. Utilisez-le autant que vous voulez.</p><span class="more">Découvrir →</span></a>
+            <a class="card reveal" href="avantages.html#poste-pro"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+                <h3>Prêt pour le bureau</h3><p>Fonctionne sur un PC ordinaire, sans carte graphique ni droits administrateur.</p><span class="more">Découvrir →</span></a>
         </div>
     </div>
 </section>
 
-<section id="confidentialite">
-    <div class="wrap split">
-        <div class="card">
-            <h2 style="text-align:left; font-size:28px;">Vos réunions restent chez vous</h2>
-            <p style="color:var(--text-2);">Les outils en ligne envoient vos réunions sur leurs serveurs. TranscriPilote fait tout sur votre ordinateur :
-                idéal pour les échanges confidentiels et les postes professionnels verrouillés.</p>
-        </div>
-        <div class="card">
-            <ul class="check">
-                <li>Traitement 100 % local, même sans connexion</li>
-                <li>Aucun compte, aucun abonnement, aucune publicité</li>
-                <li>Installation sans droits administrateur</li>
-                <li>Mises à jour intégrées, installées quand vous le décidez</li>
-                <li>Sauvegarde optionnelle vers <em>votre</em> Google Drive ou OneDrive</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<section id="installation" class="alt">
-    <div class="wrap">
-        <h2>Prêt en quelques minutes</h2>
-        <p class="sub">Windows 10 ou 11 (64 bits), 16 Go de RAM recommandés, environ 10 Go d'espace disque.
-            Pour les résumés : <a href="https://ollama.com/download">Ollama</a>, gratuit également.</p>
-        <div class="steps">
-            <div class="card"><h3>Téléchargez</h3><p>Récupérez l'installateur de la dernière version.</p></div>
-            <div class="card"><h3>Installez</h3><p>Lancez-le : tout s'installe dans votre profil, sans droits administrateur.</p></div>
-            <div class="card"><h3>Lancez</h3><p>Au premier démarrage, TranscriPilote prépare ses composants (une seule fois), puis c'est parti.</p></div>
-        </div>
-    </div>
-</section>
-
-<section id="questions">
-    <div class="wrap" style="max-width:820px;">
-        <h2>Questions fréquentes</h2>
-        <p class="sub">TranscriPilote, parfois cherché comme « Transcri Pilote » ou « transcrit pilote ».</p>
-        <details><summary>TranscriPilote est-il gratuit ?</summary>
-            <p>Oui. TranscriPilote est gratuit, sans abonnement ni publicité, pour un usage personnel comme professionnel.</p></details>
-        <details><summary>Mes réunions sont-elles envoyées sur internet ?</summary>
-            <p>Non. La transcription, les résumés et les questions sont traités sur votre PC. Rien n'est envoyé à un service en ligne, sauf la sauvegarde vers votre propre cloud si vous l'activez.</p></details>
-        <details><summary>Faut-il une carte graphique ou des droits administrateur ?</summary>
-            <p>Non. TranscriPilote fonctionne sur un PC de bureau ordinaire et s'installe dans le profil Windows de l'utilisateur, sans droits administrateur.</p></details>
-        <details><summary>Quelles réunions TranscriPilote peut-il transcrire ?</summary>
-            <p>Les réunions en ligne (Teams, Zoom, Meet) via l'audio système, les réunions en présentiel via le micro, et les fichiers audio ou vidéo existants (MP3, M4A, WAV, MP4, MKV, MOV…).</p></details>
-        <details><summary>Windows affiche « Windows a protégé votre ordinateur »</summary>
-            <p>C'est le cas pour les logiciels récents : cliquez sur « Informations complémentaires » puis « Exécuter quand même ». Chaque version est publiée avec ses sommes de contrôle SHA-256.</p></details>
-    </div>
-</section>
-
-<section class="alt final">
-    <div class="wrap">
+<section class="cta-band">
+    <div class="wrap"><div class="inner reveal">
         <h2>Essayez TranscriPilote</h2>
-        <p class="sub">Gratuit, sans inscription. Vos réunions restent sur votre PC.</p>
+        <p>Gratuit, sans inscription. Installation en quelques minutes, dans votre profil Windows.</p>
         <a class="btn btn-primary" data-download href="https://github.com/MikeDns/TranscriPilote/releases/latest">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
             Télécharger pour Windows
         </a>
-    </div>
+    </div></div>
 </section>
 </main>
 
-<footer>
-    <div class="wrap">
-        <span>© 2026 Mike DANSOU · TranscriPilote, logiciel gratuit</span>
-        <span>
-            <a href="https://github.com/MikeDns/TranscriPilote/releases">Versions</a>
-            <a href="https://github.com/MikeDns/TranscriPilote/issues/new/choose">Signaler un problème</a>
-            <a href="https://github.com/MikeDns/TranscriPilote/blob/main/LICENSE">Conditions d'utilisation</a>
-        </span>
-    </div>
-</footer>
-
-<script>
-// Lien direct vers l'installateur de la dernière version (la page des versions reste le lien de secours).
-fetch("https://api.github.com/repos/MikeDns/TranscriPilote/releases/latest")
-    .then(r => r.ok ? r.json() : Promise.reject())
-    .then(rel => {
-        const exe = (rel.assets || []).find(a => /^TranscriPilote-Setup-.+\.exe$/.test(a.name));
-        if (!exe) return;
-        document.querySelectorAll("[data-download]").forEach(a => { a.href = exe.browser_download_url; });
-        const v = document.getElementById("version");
-        if (v) v.textContent = "Version " + rel.tag_name.replace(/^v/, "") + " · " + Math.round(exe.size / 1048576)
-            + " Mo · Gratuit · Windows 10 et 11 · Sans droits administrateur";
-    })
-    .catch(() => {});
-</script>
+<footer class="site-footer"><div class="wrap">
+    <span>© 2026 Mike DANSOU · TranscriPilote, logiciel gratuit</span>
+    <nav aria-label="Liens du pied de page">
+        <a href="fonctionnalites.html">Fonctionnalités</a>
+        <a href="avantages.html">Avantages</a>
+        <a href="telecharger.html">Télécharger</a>
+        <a href="faq.html">FAQ</a>
+        <a href="https://github.com/MikeDns/TranscriPilote/releases">Versions</a>
+        <a href="https://github.com/MikeDns/TranscriPilote/issues/new/choose">Signaler un problème</a>
+        <a href="https://github.com/MikeDns/TranscriPilote/blob/main/LICENSE">Conditions d'utilisation</a>
+    </nav>
+</div></footer>
 </body>
 </html>
