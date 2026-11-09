@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mikedns.github.io/TranscriPilote/sitemap.xml

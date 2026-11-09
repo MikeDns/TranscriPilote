@@ -15,6 +15,8 @@ Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.
 
 ### [Télécharger TranscriPilote](https://github.com/MikeDns/TranscriPilote/releases/latest)
 
+**Site officiel : [mikedns.github.io/TranscriPilote](https://mikedns.github.io/TranscriPilote/)**
+
 [Signaler un problème](https://github.com/MikeDns/TranscriPilote/issues/new?template=bug_report.yml) ·
 [Proposer une idée](https://github.com/MikeDns/TranscriPilote/issues/new?template=feature_request.yml) ·
 [Nouveautés](https://github.com/MikeDns/TranscriPilote/releases)
