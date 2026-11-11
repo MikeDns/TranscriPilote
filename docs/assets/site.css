@@ -216,3 +216,41 @@ details p { color: var(--text-2); margin: 12px 0 0; }
     .js .reveal, .js .step .reveal { opacity: 1; transform: none; transition: none; }
     .hero .logo { animation: none; }
 }
+
+/* ---------- Compteur de téléchargements et questionnaire facultatif ---------- */
+
+[hidden] { display: none !important; }
+
+.downloads-count {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-size: 14px; font-weight: 600; color: var(--text-2); font-variant-numeric: tabular-nums;
+}
+.downloads-count::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 22%, transparent);
+}
+
+.feedback {
+    position: fixed; right: 20px; bottom: 20px; z-index: 100; width: min(400px, calc(100vw - 32px));
+    background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 22px 22px 18px;
+    opacity: 0; transform: translateY(12px); transition: opacity .2s ease, transform .2s ease;
+}
+.feedback.open { opacity: 1; transform: none; }
+.feedback h2 { margin: 0 0 6px; font-size: 18px; }
+.feedback-intro { margin: 0 0 14px; font-size: 13.5px; line-height: 1.55; color: var(--text-2); }
+.fb-field { margin-bottom: 12px; }
+.fb-field label { display: block; margin-bottom: 6px; font-size: 13.5px; font-weight: 600; }
+.fb-field select, .fb-field input {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; font-size: 14px;
+    color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+}
+.fb-field input { margin-top: 8px; }
+.fb-field select:focus-visible, .fb-field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.fb-actions { display: flex; gap: 10px; margin-top: 16px; }
+.fb-actions .btn { padding: 10px 18px; font-size: 14px; }
+.fb-status { margin: 10px 0 0; min-height: 1em; font-size: 13px; color: var(--text-2); }
+.fb-status:empty { display: none; }
+
+@media (max-width: 520px) { .feedback { right: 16px; left: 16px; bottom: 16px; width: auto; } }
+@media (prefers-reduced-motion: reduce) { .feedback { transition: none; } }
