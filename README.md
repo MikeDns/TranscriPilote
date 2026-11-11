@@ -19,7 +19,8 @@ Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.
 
 [Signaler un problème](https://github.com/MikeDns/TranscriPilote/issues/new?template=bug_report.yml) ·
 [Proposer une idée](https://github.com/MikeDns/TranscriPilote/issues/new?template=feature_request.yml) ·
-[Nouveautés](https://mikedns.github.io/TranscriPilote/nouveautes.html)
+[Nouveautés](https://mikedns.github.io/TranscriPilote/nouveautes.html) ·
+[Contact](https://mikedansou.me/contact/)
 
 </div>
 
@@ -105,6 +106,7 @@ Plus de réponses dans la [FAQ du site](https://mikedns.github.io/TranscriPilote
 ## Assistance
 
 Un problème ou une idée ? [Ouvrez un signalement](https://github.com/MikeDns/TranscriPilote/issues/new/choose).
+Pour une question, un partenariat ou un retour d'expérience : [contactez Mike DANSOU](https://mikedansou.me/contact/).
 Pour un problème de sécurité, utilisez le [signalement privé](https://github.com/MikeDns/TranscriPilote/security/advisories/new).
 
 ---
