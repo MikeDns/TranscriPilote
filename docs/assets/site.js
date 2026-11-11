@@ -148,6 +148,7 @@
                 var exe = rel && (rel.assets || []).filter(isSetup)[0];
                 if (!exe) return;
                 latestVersion = rel.tag_name.replace(/^v/, "");
+                document.querySelectorAll("[data-latest]").forEach(function (el) { el.textContent = latestVersion; });
                 targets.forEach(function (a) { a.href = exe.browser_download_url; });
                 var label = "Version " + latestVersion + " · " + Math.round(exe.size / 1048576) + " Mo";
                 versionEls.forEach(function (el) { el.textContent = label + " · " + el.getAttribute("data-version"); });

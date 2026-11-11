@@ -254,3 +254,31 @@ details p { color: var(--text-2); margin: 12px 0 0; }
 
 @media (max-width: 520px) { .feedback { right: 16px; left: 16px; bottom: 16px; width: auto; } }
 @media (prefers-reduced-motion: reduce) { .feedback { transition: none; } }
+
+/* ---------- Navigation, bandeau « Nouveau », badge bêta ---------- */
+
+.site-nav a[aria-current="page"]:not(.btn) { color: var(--accent-text); background: var(--accent-soft); font-weight: 600; }
+
+.announce {
+    display: flex; width: fit-content; align-items: center; gap: 10px; max-width: 100%; margin: 0 auto 26px;
+    padding: 6px 16px 6px 6px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-2); font-size: 14px; text-decoration: none; text-align: left;
+    transition: border-color .15s ease, color .15s ease;
+}
+.announce:hover { border-color: var(--accent); color: var(--text); }
+.announce-tag {
+    flex-shrink: 0; padding: 3px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.beta {
+    display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; vertical-align: middle;
+    font-size: 12px; font-weight: 700; letter-spacing: .02em; line-height: 1.4;
+    color: #b7791f; background: rgba(245, 166, 35, 0.14); border: 1px solid rgba(245, 166, 35, 0.4);
+}
+@media (prefers-color-scheme: dark) { .beta { color: #f5b041; } }
+
+@media (max-width: 900px) {
+    .site-nav a[aria-current="page"]:not(.btn) { background: var(--accent-soft); }
+}
+.site-nav a.btn-primary, .site-nav a.btn-primary:hover { color: #fff; }

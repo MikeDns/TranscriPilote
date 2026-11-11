@@ -13,13 +13,13 @@ Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.
 ![Hors ligne](https://img.shields.io/badge/fonctionne-hors%20ligne-3ddc84)
 ![Gratuit](https://img.shields.io/badge/gratuit-oui-7c6cf0)
 
-### [Télécharger TranscriPilote](https://github.com/MikeDns/TranscriPilote/releases/latest)
+### [Télécharger TranscriPilote](https://mikedns.github.io/TranscriPilote/telecharger.html)
 
 **Site officiel : [mikedns.github.io/TranscriPilote](https://mikedns.github.io/TranscriPilote/)**
 
 [Signaler un problème](https://github.com/MikeDns/TranscriPilote/issues/new?template=bug_report.yml) ·
 [Proposer une idée](https://github.com/MikeDns/TranscriPilote/issues/new?template=feature_request.yml) ·
-[Nouveautés](https://github.com/MikeDns/TranscriPilote/releases)
+[Nouveautés](https://mikedns.github.io/TranscriPilote/nouveautes.html)
 
 </div>
 
@@ -28,92 +28,70 @@ Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.
 ## Pourquoi TranscriPilote ?
 
 Les outils de transcription en ligne envoient vos réunions sur des serveurs tiers.
-TranscriPilote fait tout localement, sur un PC de bureau ordinaire **sans carte graphique**
-et **sans droits administrateur** : idéal pour un poste professionnel verrouillé ou des échanges confidentiels.
+TranscriPilote fait tout sur votre ordinateur, même un PC de bureau ordinaire **sans carte graphique**
+et **sans droits administrateur** : idéal pour un poste professionnel ou des échanges confidentiels.
 
 ## Fonctionnalités
 
 | | |
 |---|---|
-| **Enregistrement** | Micro ou audio système (réunions Teams, Zoom, Meet), en parallèle d'autres traitements |
-| **Transcription** | Locale et horodatée, plusieurs niveaux de précision |
-| **Locuteurs** | Identification de qui parle (optionnel) |
-| **Résumés** | Résumé, points clés et actions à faire, avec un modèle d'IA local et un contexte personnalisable |
-| **Discussion** | Posez des questions sur une réunion (« qui a validé le budget ? ») |
+| **Enregistrement** | Vos réunions en salle et en ligne (Teams, Zoom, Meet…), en un clic |
+| **Transcription** | Texte horodaté, en français ou en anglais, plusieurs niveaux de précision |
+| **Qui a dit quoi** *(bêta)* | Chaque intervenant est repéré dans la transcription |
+| **Résumés** | Résumé, points clés et actions à faire, rédigés par une IA installée sur votre PC |
+| **Discussion** | Posez vos questions à une réunion (« qui a validé le budget ? ») |
 | **Import** | Fichiers audio et vidéo : MP3, M4A, WAV, MP4, MKV, MOV… |
-| **Historique** | Base locale consultable, export TXT et SRT |
-| **Tâches en arrière-plan** | Transcriptions et résumés en file d'attente, annulables à tout moment |
-| **Sauvegarde** | Optionnelle, vers **votre** Google Drive ou OneDrive personnel |
-| **Mises à jour** | Proposées dans l'appli, installées seulement quand vous le décidez, retour arrière possible |
+| **Historique** | Toutes vos réunions, avec recherche dans ce qui a été dit |
+| **Exports** | Markdown, Excel, texte et sous-titres |
+| **Sauvegarde** | Facultative, vers **votre** Google Drive ou OneDrive |
+| **Mises à jour** | Proposées dans l'application, installées quand vous le décidez, retour arrière possible |
 
 ## Installation
 
-### Configuration requise
+**Configuration requise :** Windows 10 ou 11 (64 bits), 16 Go de RAM recommandés (8 Go minimum),
+environ 10 Go d'espace disque. Pour les résumés et la discussion, installez aussi
+[Ollama](https://ollama.com/download), gratuit : TranscriPilote le configure tout seul.
 
-- Windows 10 ou 11, 64 bits
-- 16 Go de RAM recommandés (8 Go minimum avec les modèles les plus légers)
-- Environ 10 Go d'espace disque (composants et modèles d'IA)
-- [Ollama](https://ollama.com/download) pour les résumés et la discussion (s'installe aussi sans droits admin)
-
-### Étapes
-
-1. Téléchargez `TranscriPilote-Setup-x.y.z.exe` depuis la [dernière version](https://github.com/MikeDns/TranscriPilote/releases/latest).
+1. Téléchargez l'installateur depuis la [page de téléchargement](https://mikedns.github.io/TranscriPilote/telecharger.html).
 2. Lancez-le : l'installation se fait dans votre profil Windows, sans droits administrateur.
-3. Au premier lancement, TranscriPilote prépare ses composants : **5 à 15 minutes, une seule fois**.
-4. Les modèles d'IA se téléchargent automatiquement à la première utilisation.
+3. Au premier lancement, TranscriPilote se prépare : quelques minutes, une seule fois.
+   Une visite guidée facultative vous présente ensuite chaque fonction.
 
-> Windows SmartScreen peut afficher « Windows a protégé votre ordinateur » : cliquez sur
+> Windows peut afficher « Windows a protégé votre ordinateur » : cliquez sur
 > **Informations complémentaires → Exécuter quand même**. Chaque version est publiée avec
 > `SHA256SUMS.txt` pour vérifier que le fichier n'a pas été modifié.
 
-### Identification des locuteurs (optionnel)
-
-Cette fonction utilise un modèle hébergé sur HuggingFace, qui demande un token gratuit :
-1. Créez un token sur <https://huggingface.co/settings/tokens> (lecture seule suffit).
-2. Acceptez les conditions de [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1).
-3. Collez le token dans **Réglages → Diarization**.
-
-## Mises à jour
-
-TranscriPilote vous prévient au démarrage quand une nouvelle version est disponible
-(en bas de la barre latérale, et dans **Réglages → Version et mises à jour**) :
-
-1. **Télécharger** prépare la nouvelle version.
-2. **Actualiser l'appli** l'installe au moment que vous choisissez.
-3. **Revenir à la version précédente** reste possible en un clic.
-
-Vos données ne sont jamais modifiées par une mise à jour.
+**Qui a dit quoi (bêta) :** activez-le dans **Réglages → Identifier qui parle**, qui vous guide pas à pas.
 
 ## Confidentialité
 
-Tout reste sur votre PC, dans `%LOCALAPPDATA%\TranscriPilote\` : enregistrements, transcriptions,
-résumés et réglages. TranscriPilote se connecte à internet uniquement pour télécharger ses composants
-et modèles, vérifier les mises à jour, et sauvegarder vers votre cloud **si vous l'activez**.
+Vos réunions, transcriptions, résumés et réglages restent sur votre PC, dans `%LOCALAPPDATA%\TranscriPilote\`.
+TranscriPilote se connecte à internet uniquement pour se préparer, vérifier les mises à jour
+et sauvegarder vers votre cloud **si vous l'activez**.
 
-**Désinstaller** : Paramètres Windows → Applications → TranscriPilote → Désinstaller.
-Vos données restent dans `%LOCALAPPDATA%\TranscriPilote\` ; supprimez ce dossier pour tout effacer.
+**Désinstaller :** Paramètres Windows → Applications → TranscriPilote. La désinstallation liste ce qu'elle
+supprime et vous demande si vous souhaitez aussi effacer vos réunions.
 
 ## Questions fréquentes
 
 <details>
 <summary><b>« Ollama non détecté »</b></summary>
 
-Installez [Ollama](https://ollama.com/download). TranscriPilote le démarre ensuite tout seul
-et télécharge le modèle choisi dans **Réglages → Résumés**.
+Installez [Ollama](https://ollama.com/download), puis relancez TranscriPilote : il s'occupe du reste.
 </details>
 
 <details>
 <summary><b>Les résumés sont imprécis</b></summary>
 
 Ajoutez du contexte avant de générer le résumé (participants, sujet, points à surveiller),
-ou essayez un autre modèle dans **Réglages → Résumés**.
+ou choisissez un autre modèle d'IA dans **Réglages → Résumés**.
 </details>
 
 <details>
 <summary><b>La transcription est lente</b></summary>
 
-Sans carte graphique, comptez de 0,5 à 2 fois la durée de l'audio selon le niveau de précision.
-Le modèle `small` est un bon compromis ; `medium` et `large-v3` sont plus précis mais plus lents.
+Sans carte graphique, comptez de la moitié à deux fois la durée de l'enregistrement.
+La qualité « Équilibré » est le meilleur compromis ; « Précis » et « Très précis » prennent plus de temps.
 </details>
 
 <details>
@@ -121,6 +99,8 @@ Le modèle `small` est un bon compromis ; `medium` et `large-v3` sont plus préc
 
 Vérifiez votre connexion internet puis relancez TranscriPilote : la préparation reprend là où elle s'est arrêtée.
 </details>
+
+Plus de réponses dans la [FAQ du site](https://mikedns.github.io/TranscriPilote/faq.html).
 
 ## Assistance
 
