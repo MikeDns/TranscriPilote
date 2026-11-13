@@ -1,6 +1,11 @@
 (function () {
     "use strict";
 
+    // Langue de la page (<html lang="fr"> ou "en") : les textes construits ici la suivent.
+    var EN = document.documentElement.lang === "en";
+    var L = function (fr, en) { return EN ? en : fr; };
+    var LOCALE = EN ? "en-GB" : "fr-FR";
+
     // En-tête : bordure au défilement, menu sur mobile.
     var header = document.querySelector(".site-header");
     var onScrollHeader = function () { if (header) header.classList.toggle("scrolled", window.scrollY > 8); };
@@ -81,9 +86,9 @@
         var fail = function () {
             releasesBox.textContent = "";
             var p = document.createElement("p");
-            p.appendChild(document.createTextNode("Impossible de charger les nouveautés pour l'instant. "));
+            p.appendChild(document.createTextNode(L("Impossible de charger les nouveautés pour l'instant. ", "What's new could not be loaded right now. ")));
             var a = document.createElement("a");
-            a.href = "https://github.com/MikeDns/TranscriPilote/releases"; a.textContent = "Voir toutes les versions sur GitHub";
+            a.href = "https://github.com/MikeDns/TranscriPilote/releases"; a.textContent = L("Voir toutes les versions sur GitHub", "See all versions on GitHub");
             p.appendChild(a);
             releasesBox.appendChild(p);
         };
@@ -100,8 +105,8 @@
                     h.textContent = "Version " + rel.tag_name.replace(/^v/, "");
                     var meta = document.createElement("span");
                     meta.className = "release-date";
-                    meta.textContent = (i === 0 ? "Dernière version · " : "") +
-                        new Date(rel.published_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+                    meta.textContent = (i === 0 ? L("Dernière version · ", "Latest version · ") : "") +
+                        new Date(rel.published_at).toLocaleDateString(LOCALE, { day: "numeric", month: "long", year: "numeric" });
                     head.appendChild(h); head.appendChild(meta);
                     card.appendChild(head);
                     card.appendChild(renderNotes(rel.body));
@@ -109,7 +114,7 @@
                     if (exe) {
                         var dl = document.createElement("a");
                         dl.className = "btn btn-ghost release-dl"; dl.href = exe.browser_download_url;
-                        dl.textContent = "Télécharger cette version";
+                        dl.textContent = L("Télécharger cette version", "Download this version");
                         card.appendChild(dl);
                     }
                     releasesBox.appendChild(card);
@@ -141,7 +146,7 @@
                     (rel.assets || []).filter(isSetup).forEach(function (a) { total += a.download_count || 0; });
                 });
                 counters.forEach(function (el) {
-                    el.textContent = total.toLocaleString("fr-FR") + " téléchargement" + (total > 1 ? "s" : "");
+                    el.textContent = total.toLocaleString(LOCALE) + L(" téléchargement", " download") + (total > 1 ? "s" : "");
                     el.hidden = false;
                 });
                 var rel = published[0];
@@ -150,7 +155,7 @@
                 latestVersion = rel.tag_name.replace(/^v/, "");
                 document.querySelectorAll("[data-latest]").forEach(function (el) { el.textContent = latestVersion; });
                 targets.forEach(function (a) { a.href = exe.browser_download_url; });
-                var label = "Version " + latestVersion + " · " + Math.round(exe.size / 1048576) + " Mo";
+                var label = "Version " + latestVersion + " · " + Math.round(exe.size / 1048576) + L(" Mo", " MB");
                 versionEls.forEach(function (el) { el.textContent = label + " · " + el.getAttribute("data-version"); });
             })
             .catch(function () {});
@@ -166,9 +171,9 @@
     var FEEDBACK_KEY = "sb_publishable_rBvne54r2erDhYCKuWC5UA_0n-CkvE9"; // clé publique : ajout de réponses seulement
     var ASKED_KEY = "tp-feedback-asked";
     var SOURCES = [
-        ["bouche_a_oreille", "Bouche-à-oreille"], ["travail", "Au travail, par un collègue"],
-        ["linkedin", "LinkedIn"], ["reseaux_sociaux", "Autres réseaux sociaux"],
-        ["recherche", "Moteur de recherche"], ["github", "GitHub"], ["autre", "Autre"],
+        ["bouche_a_oreille", L("Bouche-à-oreille", "Word of mouth")], ["travail", L("Au travail, par un collègue", "At work, from a colleague")],
+        ["linkedin", "LinkedIn"], ["reseaux_sociaux", L("Autres réseaux sociaux", "Other social networks")],
+        ["recherche", L("Moteur de recherche", "Search engine")], ["github", "GitHub"], ["autre", L("Autre", "Other")],
     ];
     var COUNTRIES = ("AD AE AF AG AL AM AO AR AT AU AZ BA BB BD BE BF BG BH BI BJ BN BO BR BS BT BW BY BZ CA CD CF CG CH CI CL CM CN CO CR CU CV CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FM FR GA GB GD GE GH GM GN GQ GR GT GW GY HK HN HR HT HU ID IE IL IN IQ IR IS IT JM JO JP KE KG KH KI KM KN KP KR KW KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MH MK ML MM MN MR MT MU MV MW MX MY MZ NA NE NG NI NL NO NP NR NZ OM PA PE PG PH PK PL PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SI SK SL SM SN SO SR SS ST SV SY SZ TD TG TH TJ TL TM TN TO TR TT TV TW TZ UA UG US UY UZ VA VC VE VN VU WS YE ZA ZM ZW").split(" ");
 
@@ -185,7 +190,7 @@
         return "";
     };
     var countryName = (function () {
-        try { var dn = new Intl.DisplayNames(["fr"], { type: "region" }); return function (c) { return dn.of(c) || c; }; }
+        try { var dn = new Intl.DisplayNames([EN ? "en" : "fr"], { type: "region" }); return function (c) { return dn.of(c) || c; }; }
         catch (e) { return function (c) { return c; }; }
     })();
     var make = function (tag, attrs, text) {
@@ -198,37 +203,38 @@
     var showFeedback = function () {
         if (document.querySelector(".feedback") || storage("get")) return;
         var box = make("section", { "class": "feedback", role: "dialog", "aria-labelledby": "feedback-title" });
-        box.appendChild(make("h2", { id: "feedback-title" }, "Votre téléchargement démarre"));
+        box.appendChild(make("h2", { id: "feedback-title" }, L("Votre téléchargement démarre", "Your download is starting")));
         box.appendChild(make("p", { "class": "feedback-intro" },
-            "Deux questions facultatives pour savoir où TranscriPilote est utilisé. Seules vos réponses sont enregistrées, sans nom ni adresse e-mail. L'application, elle, n'envoie jamais rien."));
+            L("Deux questions facultatives pour savoir où TranscriPilote est utilisé. Seules vos réponses sont enregistrées, sans nom ni adresse e-mail. L'application, elle, n'envoie jamais rien.",
+              "Two optional questions to know where TranscriPilote is used. Only your answers are recorded, with no name or e-mail address. The app itself never sends anything.")));
         var form = make("form", {});
 
         var country = make("select", { id: "fb-country", name: "country" });
-        country.appendChild(make("option", { value: "" }, "Je préfère ne pas répondre"));
+        country.appendChild(make("option", { value: "" }, L("Je préfère ne pas répondre", "I would rather not say")));
         COUNTRIES.map(function (c) { return [c, countryName(c)]; })
-            .sort(function (a, b) { return a[1].localeCompare(b[1], "fr"); })
+            .sort(function (a, b) { return a[1].localeCompare(b[1], EN ? "en" : "fr"); })
             .forEach(function (p) { country.appendChild(make("option", { value: p[0] }, p[1])); });
         country.value = guessCountry();
         var f1 = make("div", { "class": "fb-field" });
-        f1.appendChild(make("label", { "for": "fb-country" }, "Depuis quel pays téléchargez-vous ?"));
+        f1.appendChild(make("label", { "for": "fb-country" }, L("Depuis quel pays téléchargez-vous ?", "Which country are you downloading from?")));
         f1.appendChild(country);
 
         var source = make("select", { id: "fb-source", name: "source" });
-        source.appendChild(make("option", { value: "" }, "Je préfère ne pas répondre"));
+        source.appendChild(make("option", { value: "" }, L("Je préfère ne pas répondre", "I would rather not say")));
         SOURCES.forEach(function (s) { source.appendChild(make("option", { value: s[0] }, s[1])); });
-        var detail = make("input", { id: "fb-detail", type: "text", maxlength: "120", placeholder: "Précisez si vous le souhaitez", hidden: "" });
+        var detail = make("input", { id: "fb-detail", type: "text", maxlength: "120", placeholder: L("Précisez si vous le souhaitez", "Add details if you like"), hidden: "" });
         source.addEventListener("change", function () {
             detail.hidden = source.value !== "autre";
             if (!detail.hidden) detail.focus();
         });
         var f2 = make("div", { "class": "fb-field" });
-        f2.appendChild(make("label", { "for": "fb-source" }, "Comment avez-vous connu TranscriPilote ?"));
+        f2.appendChild(make("label", { "for": "fb-source" }, L("Comment avez-vous connu TranscriPilote ?", "How did you hear about TranscriPilote?")));
         f2.appendChild(source);
         f2.appendChild(detail);
 
         var actions = make("div", { "class": "fb-actions" });
-        var send = make("button", { type: "submit", "class": "btn btn-primary" }, "Envoyer");
-        var skip = make("button", { type: "button", "class": "btn btn-ghost" }, "Non merci");
+        var send = make("button", { type: "submit", "class": "btn btn-primary" }, L("Envoyer", "Send"));
+        var skip = make("button", { type: "button", "class": "btn btn-ghost" }, L("Non merci", "No thanks"));
         actions.appendChild(send);
         actions.appendChild(skip);
         var status = make("p", { "class": "fb-status", "aria-live": "polite" });
@@ -257,9 +263,9 @@
                 source_detail: source.value === "autre" && detail.value.trim() ? detail.value.trim().slice(0, 120) : null,
                 version: latestVersion,
             };
-            if (!payload.country && !payload.source) { status.textContent = "Choisissez au moins une réponse, ou cliquez sur « Non merci »."; return; }
+            if (!payload.country && !payload.source) { status.textContent = L("Choisissez au moins une réponse, ou cliquez sur « Non merci ».", "Choose at least one answer, or click “No thanks”."); return; }
             send.disabled = true;
-            status.textContent = "Envoi…";
+            status.textContent = L("Envoi…", "Sending…");
             fetch(FEEDBACK_URL, {
                 method: "POST",
                 headers: { apikey: FEEDBACK_KEY, "Content-Type": "application/json", Prefer: "return=minimal" },
@@ -267,11 +273,12 @@
             }).then(function (r) {
                 if (!r.ok) return Promise.reject();
                 storage("set", "answered");
-                status.textContent = "Merci, c'est noté. Bonne installation !";
+                status.textContent = L("Merci, c'est noté. Bonne installation !", "Thank you, noted. Enjoy the installation!");
                 setTimeout(close, 1600);
             }).catch(function () {
                 send.disabled = false;
-                status.textContent = "L'envoi n'a pas abouti. Vous pouvez réessayer ou fermer cette fenêtre : le téléchargement n'est pas concerné.";
+                status.textContent = L("L'envoi n'a pas abouti. Vous pouvez réessayer ou fermer cette fenêtre : le téléchargement n'est pas concerné.",
+                                      "Sending failed. You can try again or close this window: the download is not affected.");
             });
         });
     };
