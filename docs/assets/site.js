@@ -92,11 +92,13 @@
             p.appendChild(a);
             releasesBox.appendChild(p);
         };
-        fetch("https://api.github.com/repos/MikeDns/TranscriPilote/releases?per_page=15")
+        fetch("https://api.github.com/repos/MikeDns/TranscriPilote/releases?per_page=100")
             .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
             .then(function (releases) {
                 releasesBox.textContent = "";
-                releases.filter(function (r) { return !r.draft && !r.prerelease; }).forEach(function (rel, i) {
+                var published = releases.filter(function (r) { return !r.draft && !r.prerelease; });
+                var DETAILED = 3;   // seules les 3 dernières versions sont détaillées ; les autres sont citées plus bas
+                published.slice(0, DETAILED).forEach(function (rel, i) {
                     var card = document.createElement("article");
                     card.className = "card release";
                     var head = document.createElement("div");
@@ -119,6 +121,32 @@
                     }
                     releasesBox.appendChild(card);
                 });
+                var older = published.slice(DETAILED);
+                if (older.length) {
+                    var box = document.createElement("section");
+                    box.className = "card older-releases";
+                    var title = document.createElement("h2");
+                    title.textContent = L("Versions précédentes", "Previous versions");
+                    box.appendChild(title);
+                    var note = document.createElement("p");
+                    note.textContent = L("Les notes de ces versions sont consultables sur GitHub.", "The notes for these versions are available on GitHub.");
+                    box.appendChild(note);
+                    var list = document.createElement("ul");
+                    older.forEach(function (rel) {
+                        var li = document.createElement("li");
+                        var a = document.createElement("a");
+                        a.href = rel.html_url;
+                        a.textContent = "Version " + rel.tag_name.replace(/^v/, "");
+                        li.appendChild(a);
+                        var d = document.createElement("span");
+                        d.className = "release-date";
+                        d.textContent = " · " + new Date(rel.published_at).toLocaleDateString(LOCALE, { day: "numeric", month: "long", year: "numeric" });
+                        li.appendChild(d);
+                        list.appendChild(li);
+                    });
+                    box.appendChild(list);
+                    releasesBox.appendChild(box);
+                }
                 if (!releasesBox.children.length) fail();
             })
             .catch(fail);
