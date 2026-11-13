@@ -73,10 +73,17 @@
                 if (/^#{1,4}\s/.test(line)) {
                     list = null; node = document.createElement("h4"); node.textContent = clean(line.replace(/^#+\s*/, "")); box.appendChild(node);
                 } else if (/^\s*[-*]\s/.test(line)) {
-                    if (!list) { list = document.createElement("ul"); box.appendChild(list); }
-                    node = document.createElement("li"); node.textContent = clean(line.replace(/^\s*[-*]\s+/, "")); list.appendChild(node);
+                    var nested = /^\s{2,}/.test(line) && list && list.lastChild;   // puce indentée : sous-liste du point précédent
+                    var target = list;
+                    if (nested) {
+                        var parent = list.lastChild;
+                        target = parent.querySelector(":scope > ul");
+                        if (!target) { target = document.createElement("ul"); parent.appendChild(target); }
+                    } else if (!list) { list = document.createElement("ul"); box.appendChild(list); target = list; }
+                    node = document.createElement("li"); node.appendChild(document.createTextNode(clean(line.replace(/^\s*[-*]\s+/, "")))); target.appendChild(node);
                 } else if (/^\s{2,}\S/.test(line) && list && list.lastChild) {
-                    list.lastChild.textContent += " " + clean(line.trim());
+                    var last = list.lastChild.lastElementChild && list.lastChild.lastElementChild.tagName === "UL" ? list.lastChild.lastElementChild.lastChild : list.lastChild;
+                    last.appendChild(document.createTextNode(" " + clean(line.trim())));
                 } else if (line.trim()) {
                     list = null; node = document.createElement("p"); node.textContent = clean(line.trim()); box.appendChild(node);
                 } else { list = null; }

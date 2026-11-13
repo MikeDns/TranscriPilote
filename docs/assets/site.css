@@ -299,3 +299,6 @@ details p { color: var(--text-2); margin: 12px 0 0; }
 .older-releases ul { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 28px; }
 .older-releases li { padding: 3px 0; break-inside: avoid; font-size: 15px; }
 @media (max-width: 560px) { .older-releases ul { columns: 1; } }
+
+.release-notes li > ul { margin: 6px 0 4px; padding-left: 20px; }
+.release-notes li > ul > li { font-size: .96em; }
