@@ -9,6 +9,8 @@ from datetime import date
 from html import escape
 from pathlib import Path
 
+import illustrations as ill
+
 DOCS = Path(__file__).resolve().parent.parent / "docs"
 BASE = "https://mikedns.github.io/TranscriPilote/"
 RELEASES = "https://github.com/MikeDns/TranscriPilote/releases"
@@ -27,6 +29,7 @@ CSP = ("default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6
 PAGES = {
     "home": ("index.html", "en/index.html"),
     "features": ("fonctionnalites.html", "en/features.html"),
+    "shots": ("captures.html", "en/screenshots.html"),
     "download": ("telecharger.html", "en/download.html"),
     "news": ("nouveautes.html", "en/whats-new.html"),
     "faq": ("faq.html", "en/faq.html"),
@@ -71,36 +74,44 @@ def download_button(lang, label=None):
 
 def header(lang, key):
     t = {
-        "fr": dict(features="Fonctionnalités", news="Nouveautés", faq="Aide", download="Télécharger", menu="Ouvrir le menu",
-                   nav="Navigation principale", by=f"par {PUBLISHER}", group="Langue"),
-        "en": dict(features="Features", news="What's new", faq="Help", download="Download", menu="Open menu",
-                   nav="Main navigation", by=f"by {PUBLISHER}", group="Language"),
+        "fr": dict(features="Fonctionnalités", shots="Captures d'écran", news="Nouveautés", faq="Aide", download="Télécharger",
+                   menu="Ouvrir le menu", nav="Navigation principale", group="Langue", report="Signaler un problème", contact="Contact"),
+        "en": dict(features="Features", shots="Screenshots", news="What's new", faq="Help", download="Download",
+                   menu="Open menu", nav="Main navigation", group="Language", report="Report a problem", contact="Contact"),
     }[lang]
     pre = "" if lang == "fr" else "../"
     cur = lambda k: ' aria-current="page"' if k == key else ""
     fr_file, en_file = PAGES[key]
     if lang == "fr":
-        switch = (f'<span aria-current="true">FR</span><a href="{en_file}" hreflang="en" lang="en" title="English version">EN</a>')
+        switch = f'<span aria-current="true">Français</span><a href="{en_file}" hreflang="en" lang="en">English</a>'
     else:
         other = "../" if fr_file == "index.html" else "../" + fr_file
-        switch = (f'<a href="{other}" hreflang="fr" lang="fr" title="Version française">FR</a><span aria-current="true">EN</span>')
-    return f'''<header class="site-header"><div class="wrap">
-    <a class="brand" href="{href(lang, 'home')}"><img src="{pre}assets/icon.svg" alt="" width="30" height="30"><span class="brand-text"><span class="brand-name">TranscriPilote</span><span class="brand-by">{t['by']}</span></span></a>
+        switch = f'<a href="{other}" hreflang="fr" lang="fr">Français</a><span aria-current="true">English</span>'
+    return f'''<div class="topbar"><div class="wrap">
+    <span class="topbar-brand">{PUBLISHER}</span>
+    <nav class="topbar-links" aria-label="{t['group']}">
+        <a href="{href(lang, 'faq')}">{t['faq']}</a><a href="{ISSUES}">{t['report']}</a><a href="{CONTACT}">{t['contact']}</a>
+        <span class="lang-switch" role="group" aria-label="{t['group']}">{switch}</span>
+    </nav>
+</div></div>
+<header class="site-header"><div class="wrap">
+    <a class="brand" href="{href(lang, 'home')}"><img src="{pre}assets/icon.svg" alt="" width="32" height="32"><span class="brand-name">TranscriPilote</span></a>
     <button class="nav-toggle" type="button" aria-label="{t['menu']}" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav class="site-nav" aria-label="{t['nav']}">
         <a href="{href(lang, 'features')}"{cur('features')}>{t['features']}</a>
+        <a href="{href(lang, 'shots')}"{cur('shots')}>{t['shots']}</a>
         <a href="{href(lang, 'news')}"{cur('news')}>{t['news']}</a>
         <a href="{href(lang, 'faq')}"{cur('faq')}>{t['faq']}</a>
-        <div class="lang-switch" role="group" aria-label="{t['group']}">{switch}</div>
         <a class="btn btn-primary" href="{href(lang, 'download')}"{cur('download')}>{t['download']}</a>
     </nav>
 </div></header>'''
 
 
+
 def footer(lang):
     if lang == "fr":
         cols = [
-            ("Produit", [("Fonctionnalités", href(lang, "features")), ("Nouveautés", href(lang, "news")),
+            ("Produit", [("Fonctionnalités", href(lang, "features")), ("Captures d'écran", href(lang, "shots")), ("Nouveautés", href(lang, "news")),
                          ("Télécharger", href(lang, "download")), ("Configuration requise", href(lang, "download", "#configuration")),
                          ("Toutes les versions", RELEASES)]),
             ("Aide", [("Questions fréquentes", href(lang, "faq")), ("Signaler un problème", ISSUES), ("Contact", CONTACT)]),
@@ -112,7 +123,7 @@ def footer(lang):
         copy = f"© 2026 {PUBLISHER}. Tous droits réservés."
     else:
         cols = [
-            ("Product", [("Features", href(lang, "features")), ("What's new", href(lang, "news")),
+            ("Product", [("Features", href(lang, "features")), ("Screenshots", href(lang, "shots")), ("What's new", href(lang, "news")),
                          ("Download", href(lang, "download")), ("System requirements", href(lang, "download", "#requirements")),
                          ("All releases", RELEASES)]),
             ("Help", [("FAQ", href(lang, "faq")), ("Report a problem", ISSUES), ("Contact", CONTACT)]),
@@ -220,38 +231,47 @@ def jsonld(lang):
 # Contenu
 # ---------------------------------------------------------------------------------------------------
 
+ICONS = {
+    "offline": '<path d="M2 8.8a15 15 0 0120 0M5 12.4a10 10 0 0114 0M8.5 15.9a5 5 0 017 0M12 19.5h.01"/><path d="M3 3l18 18"/>',
+    "chip": '<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+    "free": '<path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H8a2 2 0 110-4c3 0 4 4 4 4zM12 7h4a2 2 0 100-4c-3 0-4 4-4 4z"/>',
+    "lang": '<path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c0 4-3 7-7 9M13 21l4.5-10L22 21M14.5 17.5h6"/>',
+}
+
+
+def icon(name):
+    return (f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+            f'stroke-linejoin="round" aria-hidden="true">{ICONS[name]}</svg>')
+
+
 def home(lang):
-    if lang == "fr":
+    fr = lang == "fr"
+    pre = "" if fr else "../"
+    if fr:
         title = "TranscriPilote – Transcription et résumé de réunions, sur votre PC"
         desc = ("TranscriPilote transcrit, résume et analyse vos réunions Teams, Zoom ou en salle, directement sur votre PC Windows. "
                 "Gratuit, hors ligne, sans compte ni droits administrateur.")
         T = dict(
-            announce=('<a class="announce" href="nouveautes.html">Nouveau dans la version 2.2 : la dictée sans Internet</a>'),
+            kicker="Logiciel gratuit pour Windows 10 et 11",
             h1="Vos réunions, transcrites et résumées sur votre ordinateur.",
-            lead=("TranscriPilote enregistre vos réunions Teams, Zoom, Meet ou en salle, les transcrit, en tire un résumé "
-                  "et répond à vos questions. Tout se passe sur votre PC Windows : aucun compte, aucun abonnement, "
-                  "aucune réunion envoyée sur Internet."),
-            meta="Windows 10 et 11, gratuit",
-            more="Voir les fonctionnalités",
-            hero_alt="TranscriPilote affichant la transcription horodatée d'une réunion d'équipe",
-            facts=[("Traité sur votre PC", "Transcription, résumé et questions tournent sur votre processeur."),
-                   ("Sans carte graphique", "Un PC portable ordinaire suffit, sans droits administrateur."),
-                   ("Français et anglais", "L'application, les transcriptions et les résumés.")],
-            flow_title="De la réunion aux décisions",
-            flow_lead="Quatre étapes, du premier mot prononcé à la liste des actions à faire.",
-            flow=[("recorder", "Enregistrez", "Une réunion en ligne (Teams, Zoom, Meet), une réunion en salle au micro, ou un fichier audio ou vidéo existant. TranscriPilote suit le casque ou les haut-parleurs si vous en changez en cours de route.",
-                   "L'écran Enregistrement de TranscriPilote"),
-                  ("transcription", "Transcrivez", "La parole devient un texte horodaté, fidèle, même sur un processeur de plusieurs années. Une transcription interrompue reprend là où elle s'était arrêtée.",
-                   "Une transcription horodatée"),
-                  ("summary", "Résumez", "Une IA installée sur votre PC rédige le résumé, les points clés et les actions à faire. Ajoutez le nom des participants pour un résultat plus juste.",
-                   "Le résumé d'une réunion, avec ses points clés et ses actions"),
-                  ("discussion", "Interrogez", "Posez vos questions à la réunion : « qui relit les textes, et pour quand ? ». Les réponses s'appuient uniquement sur ce qui s'y est dit.",
-                   "Une question posée à une réunion et la réponse de l'IA")],
-            new_title="Pensé pour les vraies journées de travail",
-            news=[("Une réunion oubliée en marche ?", "Choisissez la partie utile à l'heure près, transcrivez seulement elle, ou coupez l'enregistrement."),
-                  ("Dictée sans Internet", "Un bouton micro écrit vos questions et vos consignes pendant que vous parlez."),
-                  ("Rien ne s'interrompt", "Ni une mise à jour, ni une fermeture de fenêtre, ni une coupure de courant ne fait perdre un travail en cours."),
-                  ("Arrêt automatique, si vous le voulez", "Quand plus personne ne parle, ou après une durée maximale. Désactivé par défaut, et discret.")],
+            lead=("Enregistrez une réunion Teams, Zoom, Meet ou en salle. TranscriPilote la transcrit, en tire un résumé "
+                  "et répond à vos questions, sans qu'aucun mot ne quitte votre PC."),
+            more="Découvrir les fonctionnalités", meta="Windows 10 et 11, gratuit",
+            facts=[("offline", "100 % hors ligne", "Rien n'est envoyé sur Internet."),
+                   ("chip", "Sans carte graphique", "Un PC portable ordinaire suffit."),
+                   ("free", "Gratuit, sans limite", "Ni compte, ni abonnement, ni publicité."),
+                   ("lang", "Français et anglais", "L'application et les résumés.")],
+            tiles_title="Tout ce qu'il faut pour vos réunions",
+            tiles_lead="De l'enregistrement aux décisions, chaque étape se fait sur votre ordinateur.",
+            tiles=[("record", "Enregistrer n'importe quelle réunion", "En ligne, en salle ou depuis un fichier. L'enregistrement suit votre casque si vous en changez.", "enregistrement"),
+                   ("transcript", "Une transcription fidèle et horodatée", "Même sur un processeur de plusieurs années, et reprise automatique après une coupure.", "transcription"),
+                   ("summary", "Le résumé et les actions à faire", "Une IA installée sur votre PC rédige l'essentiel en quelques minutes.", "resumes"),
+                   ("chat", "Des réponses sur la réunion", "Posez vos questions : les réponses s'appuient uniquement sur ce qui s'est dit.", "discussion"),
+                   ("trim", "La partie utile, à la minute près", "Un enregistrement oublié en marche ? Gardez ou transcrivez seulement la réunion.", "decoupe"),
+                   ("dictation", "La dictée, sans Internet", "Un bouton micro écrit vos questions et vos consignes pendant que vous parlez.", "discussion")],
+            learn="En savoir plus",
+            how_title="Comment ça marche",
+            how_lead="Le son de la réunion entre, TranscriPilote le traite sur votre PC, et vous repartez avec le texte, le résumé et les réponses.",
             privacy_title="Vos réunions restent chez vous.",
             privacy_lead="Rien de ce qui se dit en réunion ne quitte votre ordinateur. TranscriPilote ne se connecte à Internet que pour :",
             privacy_list=["vérifier qu'une nouvelle version existe, sur GitHub ;",
@@ -265,6 +285,9 @@ def home(lang):
                      ("Compte à créer", "Aucun", "Obligatoire"),
                      ("Fonctionne hors connexion", "Oui", "Non"),
                      ("Questions sur la réunion", "Oui, en local", "Selon l'offre")],
+            shots_title="L'application en images",
+            shots_lead="Les écrans de TranscriPilote en pleine résolution : enregistrement, transcription, résumé, discussion, historique et découpe.",
+            shots_link="Voir les captures d'écran",
             cta_title="Essayez-le sur votre prochaine réunion.",
             cta_lead="Gratuit, sans inscription. L'installation prend quelques minutes, dans votre profil Windows.",
             why_id="pourquoi",
@@ -274,32 +297,26 @@ def home(lang):
         desc = ("TranscriPilote transcribes, summarizes and analyses your Teams, Zoom or in-room meetings, right on your Windows PC. "
                 "Free, offline, no account or admin rights needed.")
         T = dict(
-            announce=('<a class="announce" href="whats-new.html">New in version 2.2: offline dictation</a>'),
+            kicker="Free software for Windows 10 and 11",
             h1="Your meetings, transcribed and summarized on your own computer.",
-            lead=("TranscriPilote records your Teams, Zoom, Meet or in-room meetings, transcribes them, writes a summary "
-                  "and answers your questions. Everything happens on your Windows PC: no account, no subscription, "
-                  "no meeting sent over the Internet."),
-            meta="Windows 10 and 11, free",
-            more="See all features",
-            hero_alt="TranscriPilote showing the timestamped transcript of a team meeting",
-            facts=[("Processed on your PC", "Transcription, summaries and questions run on your processor."),
-                   ("No graphics card", "An ordinary laptop is enough, with no admin rights."),
-                   ("English and French", "The app, the transcripts and the summaries.")],
-            flow_title="From meeting to decisions",
-            flow_lead="Four steps, from the first spoken word to the list of action items.",
-            flow=[("recorder", "Record", "An online meeting (Teams, Zoom, Meet), an in-room meeting with the microphone, or an existing audio or video file. TranscriPilote follows your headset or speakers if you switch during the meeting.",
-                   "The TranscriPilote Recording screen"),
-                  ("transcription", "Transcribe", "Speech becomes accurate, timestamped text, even on a processor several years old. An interrupted transcription resumes where it stopped.",
-                   "A timestamped transcript"),
-                  ("summary", "Summarize", "An AI installed on your PC writes the summary, key points and action items. Add the participants' names for a more accurate result.",
-                   "A meeting summary with key points and action items"),
-                  ("discussion", "Ask", "Ask the meeting your questions: “who is proofreading the copy, and by when?”. Answers rely only on what was said.",
-                   "A question asked to a meeting and the AI's answer")],
-            new_title="Built for real working days",
-            news=[("Forgot to stop a recording?", "Pick the useful part to the minute, transcribe only that part, or cut the recording."),
-                  ("Offline dictation", "A microphone button writes your questions and instructions as you speak."),
-                  ("Nothing gets interrupted", "No update, closed window or power cut makes you lose work in progress."),
-                  ("Automatic stop, if you want it", "When nobody is speaking any more, or after a maximum duration. Off by default, and discreet.")],
+            lead=("Record a Teams, Zoom, Meet or in-room meeting. TranscriPilote transcribes it, writes a summary "
+                  "and answers your questions, without a single word leaving your PC."),
+            more="Explore the features", meta="Windows 10 and 11, free",
+            facts=[("offline", "100% offline", "Nothing is sent over the Internet."),
+                   ("chip", "No graphics card", "An ordinary laptop is enough."),
+                   ("free", "Free, no limits", "No account, subscription or ads."),
+                   ("lang", "English and French", "The app and the summaries.")],
+            tiles_title="Everything your meetings need",
+            tiles_lead="From recording to decisions, every step happens on your computer.",
+            tiles=[("record", "Record any meeting", "Online, in the room or from a file. Recording follows your headset if you switch.", "recording"),
+                   ("transcript", "An accurate, timestamped transcript", "Even on a processor several years old, with automatic resume after an interruption.", "transcription"),
+                   ("summary", "The summary and action items", "An AI installed on your PC writes the essentials in a few minutes.", "summaries"),
+                   ("chat", "Answers about the meeting", "Ask your questions: answers rely only on what was said.", "discussion"),
+                   ("trim", "The useful part, to the minute", "Left a recording running? Keep or transcribe only the meeting.", "trim"),
+                   ("dictation", "Dictation, no Internet needed", "A microphone button writes your questions and instructions as you speak.", "discussion")],
+            learn="Learn more",
+            how_title="How it works",
+            how_lead="The meeting's sound goes in, TranscriPilote processes it on your PC, and you leave with the text, the summary and the answers.",
             privacy_title="Your meetings stay with you.",
             privacy_lead="Nothing said in a meeting leaves your computer. TranscriPilote only connects to the Internet to:",
             privacy_list=["check whether a new version exists, on GitHub;",
@@ -313,48 +330,50 @@ def home(lang):
                      ("Account required", "None", "Mandatory"),
                      ("Works offline", "Yes", "No"),
                      ("Questions about the meeting", "Yes, locally", "Depends on the plan")],
+            shots_title="The app in pictures",
+            shots_lead="TranscriPilote's screens at full resolution: recording, transcript, summary, discussion, history and trimming.",
+            shots_link="See the screenshots",
             cta_title="Try it on your next meeting.",
             cta_lead="Free, no sign-up. Installation takes a few minutes, in your Windows profile.",
             why_id="why",
         )
-    facts = "".join(f'<li><strong>{a}</strong><span>{b}</span></li>' for a, b in T["facts"])
-    flow = "".join(
-        f'''<li class="flow-row">
-            <div class="flow-text"><span class="flow-num">{i}</span><h3>{h}</h3><p>{p}</p></div>
-            {shot(lang, img, alt)}
-        </li>''' for i, (img, h, p, alt) in enumerate(T["flow"], 1))
-    news = "".join(f'<div class="note"><h3>{a}</h3><p>{b}</p></div>' for a, b in T["news"])
+    facts = "".join(f'<li>{icon(i)}<div><strong>{a}</strong><span>{b}</span></div></li>' for i, a, b in T["facts"])
+    tiles = "".join(
+        f'''<a class="tile" href="{href(lang, 'features', '#' + anchor)}">
+            <div class="tile-art">{ill.mini(kind, lang)}</div>
+            <div class="tile-text"><h3>{h}</h3><p>{p}</p><span class="tile-link">{T['learn']}</span></div>
+        </a>''' for kind, h, p, anchor in T["tiles"])
     plist = "".join(f"<li>{x}</li>" for x in T["privacy_list"])
     head, *rows = T["compare"]
-    table = (f'<table class="compare"><thead><tr><th scope="col"><span class="sr">{"Critère" if lang == "fr" else "Criterion"}</span></th>'
+    table = (f'<table class="compare"><thead><tr><th scope="col"><span class="sr">{"Critère" if fr else "Criterion"}</span></th>'
              f'<th scope="col" class="us">{head[1]}</th><th scope="col">{head[2]}</th></tr></thead><tbody>'
              + "".join(f'<tr><th scope="row">{a}</th><td class="us">{b}</td><td>{c}</td></tr>' for a, b, c in rows)
              + "</tbody></table>")
     body = f'''<section class="hero">
     <div class="wrap hero-grid">
         <div class="hero-text">
-            {T['announce']}
+            <p class="hero-kicker">{T['kicker']}</p>
             <h1>{T['h1']}</h1>
             <p class="lead">{T['lead']}</p>
-            <div class="cta">{download_button(lang)}<a class="link" href="{href(lang, 'features')}">{T['more']}</a></div>
+            <div class="cta">{download_button(lang)}<a class="btn btn-outline-light btn-lg" href="{href(lang, 'features')}">{T['more']}</a></div>
             <p class="meta" data-version="{T['meta']}">{T['meta']}</p>
         </div>
-        {shot(lang, "transcription", T['hero_alt'], "shot hero-shot", eager=True)}
+        {ill.app(lang)}
     </div>
-    <div class="wrap"><ul class="facts">{facts}</ul></div>
 </section>
+<div class="wrap"><ul class="facts">{facts}</ul></div>
 
 <section class="section">
     <div class="wrap">
-        <header class="section-head"><h2>{T['flow_title']}</h2><p>{T['flow_lead']}</p></header>
-        <ol class="flow">{flow}</ol>
+        <header class="section-head"><h2>{T['tiles_title']}</h2><p>{T['tiles_lead']}</p></header>
+        <div class="tiles">{tiles}</div>
     </div>
 </section>
 
 <section class="section section-alt">
     <div class="wrap">
-        <header class="section-head"><h2>{T['new_title']}</h2></header>
-        <div class="notes">{news}</div>
+        <header class="section-head"><h2>{T['how_title']}</h2><p>{T['how_lead']}</p></header>
+        {ill.flow(lang).replace("{pre}", pre)}
     </div>
 </section>
 
@@ -373,7 +392,14 @@ def home(lang):
     </div>
 </section>
 
-<section class="section closing">
+<section class="section section-alt">
+    <div class="wrap promo">
+        <div><h2>{T['shots_title']}</h2><p>{T['shots_lead']}</p></div>
+        <a class="btn btn-ghost btn-lg" href="{href(lang, 'shots')}">{T['shots_link']}</a>
+    </div>
+</section>
+
+<section class="cta-band">
     <div class="wrap closing-inner">
         <div><h2>{T['cta_title']}</h2><p>{T['cta_lead']}</p></div>
         <div class="closing-cta">{download_button(lang)}<p class="meta" data-version="{T['meta']}">{T['meta']}</p>
@@ -383,14 +409,15 @@ def home(lang):
     return page(lang, "home", title, desc, body, jsonld(lang))
 
 
-def page_head(title, lead, wide=False):
-    return f'<section class="page-head"><div class="wrap{"" if wide else " narrow"}"><h1>{title}</h1><p class="lead">{lead}</p></div></section>'
+def page_head(title, lead, wide=False, dark=False):
+    cls = "page-head page-head-dark" if dark else "page-head"
+    return f'<section class="{cls}"><div class="wrap{"" if wide else " narrow"}"><h1>{title}</h1><p class="lead">{lead}</p></div></section>'
 
 
 def features(lang):
     fr = lang == "fr"
     items = [
-        ("enregistrement" if fr else "recording", "recorder",
+        ("enregistrement" if fr else "recording", "record",
          "Enregistrement" if fr else "Recording",
          "Captez n'importe quelle réunion" if fr else "Capture any meeting",
          ["Réunions en ligne : Teams, Zoom, Meet, webinaires", "Réunions en salle, au micro", "Les deux à la fois : votre voix et celle des autres participants",
@@ -399,7 +426,7 @@ def features(lang):
          ["Online meetings: Teams, Zoom, Meet, webinars", "In-room meetings, with the microphone", "Both at once: your voice and the other participants'",
           "Import audio and video files (MP3, M4A, WAV, MP4, MKV, MOV…)", "Automatic switch when you plug in a headset",
           "“Test sound” button before an important meeting"]),
-        ("transcription", "transcription",
+        ("transcription", "transcript",
          "Transcription", "Un texte fidèle, sans carte graphique" if fr else "Accurate text, no graphics card",
          ["Texte horodaté, facile à relire et à citer", "Français, anglais ou détection automatique", "Plusieurs niveaux de précision, et un mode rapide pour les enregistrements de plusieurs heures",
           "Reprise automatique après une coupure", "Fonctionne hors connexion"] if fr else
@@ -421,13 +448,13 @@ def features(lang):
           "Rédigé dans la langue de l'interface", "Plusieurs modèles d'IA au choix, avec Ollama"] if fr else
          ["Summary, key points and action items", "Optional context: participants, roles, topic", "Long meetings supported",
           "Written in the interface language", "Choice of AI models, with Ollama"]),
-        ("discussion", "discussion",
+        ("discussion", "chat",
          "Discussion", "Posez vos questions à la réunion" if fr else "Ask the meeting your questions",
          ["« Qui a validé le budget ? », « Quelles sont les échéances ? »", "Réponses fondées uniquement sur la réunion", "Questions de suivi qui tiennent compte de l'échange",
           "Dictée sans Internet : posez vos questions à voix haute"] if fr else
          ["“Who approved the budget?”, “What are the deadlines?”", "Answers based only on the meeting", "Follow-up questions that remember the conversation",
           "Offline dictation: ask your questions out loud"]),
-        ("historique" if fr else "history", "history",
+        ("historique" if fr else "history", "export",
          "Historique et exports" if fr else "History and exports",
          "Retrouvez tout, partagez facilement" if fr else "Find everything, share easily",
          ["Recherche dans toutes les transcriptions", "Export Markdown, Excel, texte et sous-titres", "Base de données complète, pour Power BI, PostgreSQL ou Python",
@@ -438,8 +465,8 @@ def features(lang):
     rows = "".join(
         f'''<article class="feature" id="{fid}">
             <div class="feature-text"><p class="kicker">{kicker}</p><h2>{h}</h2><ul class="ticks">{"".join(f"<li>{x}</li>" for x in lst)}</ul></div>
-            {shot(lang, img, h)}
-        </article>''' for fid, img, kicker, h, lst in items)
+            <div class="feature-art">{ill.mini(kind, lang)}</div>
+        </article>''' for fid, kind, kicker, h, lst in items)
     speakers = ('<article class="feature feature-solo" id="locuteurs"><div class="feature-text"><p class="kicker">Locuteurs <span class="beta">Bêta</span></p>'
                 '<h2>Qui a dit quoi ?</h2><p>TranscriPilote peut reconnaître les différentes voix et attribuer chaque phrase à son intervenant. '
                 'Cette fonction est encore en développement : activez-la quand elle vous est utile.</p></div></article>') if fr else (
@@ -448,14 +475,41 @@ def features(lang):
                 'This feature is still in development: turn it on when it helps.</p></div></article>')
     head = page_head("Fonctionnalités" if fr else "Features",
                      "De l'enregistrement aux décisions, sans rien envoyer sur Internet." if fr else
-                     "From recording to decisions, without sending anything over the Internet.", wide=True)
-    closing = f'''<section class="section closing"><div class="wrap closing-inner">
+                     "From recording to decisions, without sending anything over the Internet.", wide=True, dark=True)
+    closing = f'''<section class="cta-band"><div class="wrap closing-inner">
         <div><h2>{"Prêt à essayer ?" if fr else "Ready to try it?"}</h2><p>{"Gratuit, sans inscription, installé en quelques minutes." if fr else "Free, no sign-up, installed in a few minutes."}</p></div>
         <div class="closing-cta">{download_button(lang)}</div></div></section>'''
     body = head + f'<section class="section section-tight"><div class="wrap">{rows}{speakers}</div></section>' + closing
     return page(lang, "features", "Fonctionnalités – TranscriPilote" if fr else "Features – TranscriPilote",
                 "Enregistrement, transcription, découpe, résumés, questions et exports : tout ce que fait TranscriPilote, sur votre PC." if fr else
                 "Recording, transcription, trimming, summaries, questions and exports: everything TranscriPilote does, on your PC.", body)
+
+
+SHOTS = [
+    ("recorder", "Enregistrement", "Recording", "Le choix de la source : micro, réunion en ligne ou son du PC.", "Choosing the source: microphone, online meeting or PC sound."),
+    ("transcription", "Transcription", "Transcription", "Une réunion transcrite, horodatée phrase par phrase.", "A transcribed meeting, timestamped sentence by sentence."),
+    ("summary", "Résumé", "Summary", "Le résumé, les points clés et les actions à faire, rédigés par l'IA de votre PC.", "The summary, key points and action items, written by your PC's AI."),
+    ("discussion", "Discussion", "Discussion", "Une question posée à la réunion, et la réponse.", "A question asked to the meeting, and the answer."),
+    ("history", "Historique", "History", "Toutes les réunions, avec la recherche dans les transcriptions.", "All meetings, with search across transcripts."),
+    ("trim", "Découper une réunion", "Trimming a meeting", "Garder seulement la partie utile d'un enregistrement trop long.", "Keeping only the useful part of an overlong recording."),
+]
+
+
+def shots(lang):
+    fr = lang == "fr"
+    pre = "" if fr else "../"
+    figs = "".join(
+        f'''<figure class="screenshot" id="{key}">
+            <figcaption><h2>{tf if fr else te}</h2><p>{cf if fr else ce}</p></figcaption>
+            <a href="{pre}assets/shots/{lang}/{key}.png" title="{'Ouvrir en taille réelle' if fr else 'Open full size'}">
+                <img src="{pre}assets/shots/{lang}/{key}.png" alt="{escape(cf if fr else ce)}" width="1280" height="800" loading="{'eager' if i == 0 else 'lazy'}" decoding="async"></a>
+        </figure>''' for i, (key, tf, te, cf, ce) in enumerate(SHOTS))
+    head = page_head("Captures d'écran" if fr else "Screenshots",
+                     "TranscriPilote tel qu'il s'affiche sur votre PC, en taille réelle. Cliquez sur une image pour l'ouvrir seule." if fr else
+                     "TranscriPilote as it appears on your PC, at full size. Click an image to open it on its own.", wide=True, dark=True)
+    body = head + f'<section class="section section-tight"><div class="wrap shots">{figs}</div></section>'
+    return page(lang, "shots", "Captures d'écran – TranscriPilote" if fr else "Screenshots – TranscriPilote",
+                "Les écrans de TranscriPilote en pleine résolution." if fr else "TranscriPilote's screens at full resolution.", body)
 
 
 def download(lang):
@@ -682,7 +736,7 @@ def sitemap():
 
 
 def main():
-    builders = {"home": home, "features": features, "download": download, "news": news, "faq": faq,
+    builders = {"home": home, "features": features, "shots": shots, "download": download, "news": news, "faq": faq,
                 "privacy": privacy, "legal": legal}
     for key, (fr_file, en_file) in PAGES.items():
         for lang, f in (("fr", fr_file), ("en", en_file)):
