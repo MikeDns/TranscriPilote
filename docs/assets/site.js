@@ -117,7 +117,7 @@
             .then(function (releases) {
                 releasesBox.textContent = "";
                 var published = releases.filter(function (r) { return !r.draft && !r.prerelease; });
-                var DETAILED = 3;   // seules les 3 dernières versions sont détaillées ; les autres sont citées plus bas
+                var DETAILED = 3;   // les 3 dernières versions, sans date ; l'historique complet reste sur GitHub
                 published.slice(0, DETAILED).forEach(function (rel, i) {
                     var card = document.createElement("article");
                     card.className = "card release";
@@ -125,47 +125,29 @@
                     head.className = "release-head";
                     var h = document.createElement("h2");
                     h.textContent = "Version " + rel.tag_name.replace(/^v/, "");
-                    var meta = document.createElement("span");
-                    meta.className = "release-date";
-                    meta.textContent = (i === 0 ? L("Dernière version · ", "Latest version · ") : "") +
-                        new Date(rel.published_at).toLocaleDateString(LOCALE, { day: "numeric", month: "long", year: "numeric" });
-                    head.appendChild(h); head.appendChild(meta);
-                    card.appendChild(head);
-                    card.appendChild(renderNotes(rel.body));
-                    var exe = (rel.assets || []).filter(function (a) { return /^TranscriPilote-Setup-.+\.exe$/.test(a.name); })[0];
-                    if (exe) {
-                        var dl = document.createElement("a");
-                        dl.className = "btn btn-ghost release-dl"; dl.href = exe.browser_download_url;
-                        dl.textContent = L("Télécharger cette version", "Download this version");
-                        card.appendChild(dl);
+                    head.appendChild(h);
+                    if (i === 0) {
+                        var tag = document.createElement("span");
+                        tag.className = "release-latest";
+                        tag.textContent = L("Dernière version", "Latest version");
+                        head.appendChild(tag);
                     }
+                    card.appendChild(head);
+                    // Les notes sont rédigées en français, suivies d'une partie « In English » : chaque site montre sa langue.
+                    var body = rel.body || "";
+                    var k = body.search(/^#+\s*In English\s*$/m);
+                    if (k >= 0) body = EN ? body.slice(k).replace(/^#+\s*In English\s*$/m, "") : body.slice(0, k);
+                    card.appendChild(renderNotes(body));
                     releasesBox.appendChild(card);
                 });
-                var older = published.slice(DETAILED);
-                if (older.length) {
-                    var box = document.createElement("section");
-                    box.className = "card older-releases";
-                    var title = document.createElement("h2");
-                    title.textContent = L("Versions précédentes", "Previous versions");
-                    box.appendChild(title);
-                    var note = document.createElement("p");
-                    note.textContent = L("Les notes de ces versions sont consultables sur GitHub.", "The notes for these versions are available on GitHub.");
-                    box.appendChild(note);
-                    var list = document.createElement("ul");
-                    older.forEach(function (rel) {
-                        var li = document.createElement("li");
-                        var a = document.createElement("a");
-                        a.href = rel.html_url;
-                        a.textContent = "Version " + rel.tag_name.replace(/^v/, "");
-                        li.appendChild(a);
-                        var d = document.createElement("span");
-                        d.className = "release-date";
-                        d.textContent = " · " + new Date(rel.published_at).toLocaleDateString(LOCALE, { day: "numeric", month: "long", year: "numeric" });
-                        li.appendChild(d);
-                        list.appendChild(li);
-                    });
-                    box.appendChild(list);
-                    releasesBox.appendChild(box);
+                if (published.length > DETAILED) {
+                    var more = document.createElement("p");
+                    more.className = "older-link";
+                    var a = document.createElement("a");
+                    a.href = "https://github.com/MikeDns/TranscriPilote/releases";
+                    a.textContent = L("Notes des versions précédentes, sur GitHub", "Notes for previous versions, on GitHub");
+                    more.appendChild(a);
+                    releasesBox.appendChild(more);
                 }
                 if (!releasesBox.children.length) fail();
             })

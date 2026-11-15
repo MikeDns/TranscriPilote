@@ -113,8 +113,7 @@ def footer(lang):
     if lang == "fr":
         cols = [
             ("Produit", [("Fonctionnalités", href(lang, "features")), ("Captures d'écran", href(lang, "shots")), ("Nouveautés", href(lang, "news")),
-                         ("Télécharger", href(lang, "download")), ("Configuration requise", href(lang, "download", "#configuration")),
-                         ("Toutes les versions", RELEASES)]),
+                         ("Télécharger", href(lang, "download")), ("Configuration requise", href(lang, "download", "#configuration"))]),
             ("Aide", [("Questions fréquentes", href(lang, "faq")), ("Signaler un problème", ISSUES), ("Contact", CONTACT)]),
             ("Informations légales", [("Conditions d'utilisation", LICENSE), ("Confidentialité", href(lang, "privacy")),
                                       ("Mentions légales", href(lang, "legal")), ("Composants tiers", NOTICES)]),
@@ -125,8 +124,7 @@ def footer(lang):
     else:
         cols = [
             ("Product", [("Features", href(lang, "features")), ("Screenshots", href(lang, "shots")), ("What's new", href(lang, "news")),
-                         ("Download", href(lang, "download")), ("System requirements", href(lang, "download", "#requirements")),
-                         ("All releases", RELEASES)]),
+                         ("Download", href(lang, "download")), ("System requirements", href(lang, "download", "#requirements"))]),
             ("Help", [("FAQ", href(lang, "faq")), ("Report a problem", ISSUES), ("Contact", CONTACT)]),
             ("Legal", [("Terms of use", LICENSE), ("Privacy", href(lang, "privacy")),
                        ("Legal notice", href(lang, "legal")), ("Third-party components", NOTICES)]),
@@ -558,7 +556,7 @@ def download(lang):
         <img class="app-icon" src="{"" if fr else "../"}assets/icon.svg" alt="" width="88" height="88">
         <h1>{"Télécharger TranscriPilote" if fr else "Download TranscriPilote"}</h1>
         <p class="lead">{"Gratuit, pour Windows 10 et 11. L'installation se fait dans votre profil, sans droits administrateur." if fr else "Free, for Windows 10 and 11. Installs in your profile, with no admin rights."}</p>
-        <div class="cta">{download_button(lang)}<a class="link" href="{RELEASES}">{"Toutes les versions" if fr else "All releases"}</a></div>
+        <div class="cta">{download_button(lang)}</div>
         <p class="meta" data-version="{meta}">{meta}</p>
         <p class="downloads-count" data-downloads hidden aria-live="polite"></p>
     </div></section>
@@ -578,8 +576,8 @@ def download(lang):
 def news(lang):
     fr = lang == "fr"
     body = page_head("Nouveautés" if fr else "What's new",
-                     "Ce qui change, version après version. Cette page se met à jour à chaque nouvelle version." if fr else
-                     "What changes, release after release. This page updates itself with each new version.") + f'''
+                     "Ce qui a changé dans les trois dernières versions. Cette page se met à jour à chaque nouvelle version." if fr else
+                     "What changed in the last three versions. This page updates itself with each new version.") + f'''
     <section class="section section-tight"><div class="wrap narrow">
         <div id="releases"><p>{"Chargement des nouveautés…" if fr else "Loading release notes…"}</p></div>
         <noscript><p>{"Activez JavaScript pour afficher les nouveautés, ou" if fr else "Turn on JavaScript to see the release notes, or"} <a href="{RELEASES}">{"consultez les versions sur GitHub" if fr else "see the releases on GitHub"}</a>.</p></noscript>
