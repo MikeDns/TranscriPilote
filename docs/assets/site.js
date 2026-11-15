@@ -6,6 +6,19 @@
     var L = function (fr, en) { return EN ? en : fr; };
     var LOCALE = EN ? "en-GB" : "fr-FR";
 
+    // Thème : celui de Windows par défaut ; le bouton de la barre du haut bascule clair / sombre et s'en souvient.
+    var root = document.documentElement;
+    var themeBtn = document.querySelector(".theme-toggle");
+    var systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    var currentTheme = function () { return root.getAttribute("data-theme") || (systemDark && systemDark.matches ? "dark" : "light"); };
+    if (themeBtn) {
+        themeBtn.addEventListener("click", function () {
+            var next = currentTheme() === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", next);
+            try { localStorage.setItem("tp-site-theme", next); } catch (e) {}
+        });
+    }
+
     // En-tête : bordure au défilement, menu sur mobile.
     var header = document.querySelector(".site-header");
     var onScrollHeader = function () { if (header) header.classList.toggle("scrolled", window.scrollY > 8); };

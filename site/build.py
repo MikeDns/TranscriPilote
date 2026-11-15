@@ -20,7 +20,7 @@ CONTACT = "https://mikedansou.me/contact/"
 LICENSE = "https://github.com/MikeDns/TranscriPilote/blob/main/LICENSE"
 NOTICES = "https://github.com/MikeDns/TranscriPilote/blob/main/THIRD_PARTY_NOTICES.md"
 PUBLISHER = "MikeDns Labs"
-CSP = ("default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; "
+CSP = ("default-src 'self'; script-src 'self' 'sha256-Fbh3k6QHVsQkq2kG8FjFcWt5VCx1Bpap6E9fabxFPjs='; "
        "style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
        "connect-src https://api.github.com https://nujxmiqbaxgrnvmjyecu.supabase.co; object-src 'none'; "
        "base-uri 'self'; form-action 'self'; upgrade-insecure-requests")
@@ -75,9 +75,9 @@ def download_button(lang, label=None):
 def header(lang, key):
     t = {
         "fr": dict(features="Fonctionnalités", shots="Captures d'écran", news="Nouveautés", faq="Aide", download="Télécharger",
-                   menu="Ouvrir le menu", nav="Navigation principale", group="Langue", report="Signaler un problème", contact="Contact"),
+                   menu="Ouvrir le menu", nav="Navigation principale", group="Langue", report="Signaler un problème", contact="Contact", theme="Passer en thème clair ou sombre", theme_label="Thème"),
         "en": dict(features="Features", shots="Screenshots", news="What's new", faq="Help", download="Download",
-                   menu="Open menu", nav="Main navigation", group="Language", report="Report a problem", contact="Contact"),
+                   menu="Open menu", nav="Main navigation", group="Language", report="Report a problem", contact="Contact", theme="Switch between light and dark theme", theme_label="Theme"),
     }[lang]
     pre = "" if lang == "fr" else "../"
     cur = lambda k: ' aria-current="page"' if k == key else ""
@@ -91,6 +91,7 @@ def header(lang, key):
     <span class="topbar-brand">{PUBLISHER}</span>
     <nav class="topbar-links" aria-label="{t['group']}">
         <a href="{href(lang, 'faq')}">{t['faq']}</a><a href="{ISSUES}">{t['report']}</a><a href="{CONTACT}">{t['contact']}</a>
+        <button class="theme-toggle" type="button" aria-label="{t['theme']}" title="{t['theme']}"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg><span>{t['theme_label']}</span></button>
         <span class="lang-switch" role="group" aria-label="{t['group']}">{switch}</span>
     </nav>
 </div></div>
@@ -167,7 +168,8 @@ def page(lang, key, title, description, body, extra_head=""):
 <meta name="publisher" content="{PUBLISHER}">
 <meta name="google-site-verification" content="O0swOZqCXVkIEmv03IDjbLMx8_pzLGd5VeqcyB9ZoxQ">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0d24" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="{pre}assets/icon.svg" type="image/svg+xml">
 <link rel="icon" href="{pre}assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="{pre}assets/icon.png">
@@ -182,7 +184,7 @@ def page(lang, key, title, description, body, extra_head=""):
 <meta property="og:image:height" content="640">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{BASE}assets/social-preview.png">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');try{{var t=localStorage.getItem('tp-site-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}</script>
 <meta http-equiv="Content-Security-Policy" content="{CSP}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="stylesheet" href="{pre}assets/site.css">
