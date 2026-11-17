@@ -20,6 +20,10 @@ CONTACT = "https://mikedansou.me/contact/"
 LICENSE = "https://github.com/MikeDns/TranscriPilote/blob/main/LICENSE"
 NOTICES = "https://github.com/MikeDns/TranscriPilote/blob/main/THIRD_PARTY_NOTICES.md"
 PUBLISHER = "MikeDns Labs"
+# Même identifiant que la fiche Person du portfolio : un robot comprend que
+# l'auteur de TranscriPilote et Mike Dansou (mikedansou.me) ne font qu'un.
+AUTHOR_URL = "https://mikedansou.me/"
+AUTHOR_ID = "https://mikedansou.me/#mike-dansou"
 CSP = ("default-src 'self'; script-src 'self' 'sha256-Fbh3k6QHVsQkq2kG8FjFcWt5VCx1Bpap6E9fabxFPjs='; "
        "style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
        "connect-src https://api.github.com https://nujxmiqbaxgrnvmjyecu.supabase.co; object-src 'none'; "
@@ -119,7 +123,7 @@ def footer(lang):
                                       ("Mentions légales", href(lang, "legal")), ("Composants tiers", NOTICES)]),
         ]
         about = (f"TranscriPilote est un logiciel gratuit pour Windows, édité par {PUBLISHER}. "
-                 "Conçu et maintenu par Mike DANSOU.")
+                 f'Conçu et maintenu par <a href="{AUTHOR_URL}" rel="author">Mike Dansou</a>.')
         copy = f"© 2026 {PUBLISHER}. Tous droits réservés."
     else:
         cols = [
@@ -130,7 +134,7 @@ def footer(lang):
                        ("Legal notice", href(lang, "legal")), ("Third-party components", NOTICES)]),
         ]
         about = (f"TranscriPilote is free software for Windows, published by {PUBLISHER}. "
-                 "Designed and maintained by Mike DANSOU.")
+                 f'Designed and maintained by <a href="{AUTHOR_URL}" rel="author">Mike Dansou</a>.')
         copy = f"© 2026 {PUBLISHER}. All rights reserved."
     pre = "" if lang == "fr" else "../"
     columns = "".join(
@@ -211,16 +215,17 @@ def jsonld(lang):
   "@graph": [
     {{ "@type": "WebSite", "@id": "{url}#site", "name": "TranscriPilote", "url": "{url}", "inLanguage": "{lang}",
        "alternateName": ["Transcri Pilote", "Transcrit Pilote"] }},
-    {{ "@type": "Organization", "@id": "{BASE}#publisher", "name": "{PUBLISHER}", "url": "{BASE}",
-       "founder": {{ "@type": "Person", "name": "Mike DANSOU", "url": "https://github.com/MikeDns" }} }},
+    {{ "@type": "Person", "@id": "{AUTHOR_ID}", "name": "Mike Dansou", "alternateName": ["Mike DANSOU", "MikeDns Labs"],
+       "url": "{AUTHOR_URL}",
+       "sameAs": ["https://github.com/MikeDns", "https://github.com/MahounanDANSOU", "https://www.linkedin.com/in/m-mike-dansou"] }},
     {{ "@type": "SoftwareApplication", "@id": "{url}#app", "name": "TranscriPilote",
        "alternateName": ["Transcri Pilote", "Transcrit Pilote", "TranscriPilot"],
        "description": "{desc}", "applicationCategory": "BusinessApplication",
        "operatingSystem": "Windows 10, Windows 11", "inLanguage": ["fr", "en"], "isAccessibleForFree": true,
        "offers": {{ "@type": "Offer", "price": "0", "priceCurrency": "EUR" }},
        "downloadUrl": "{LATEST}", "url": "{url}", "image": "{BASE}assets/social-preview.png",
-       "publisher": {{ "@id": "{BASE}#publisher" }},
-       "author": {{ "@type": "Person", "name": "Mike DANSOU", "url": "https://github.com/MikeDns" }} }}
+       "publisher": {{ "@id": "{AUTHOR_ID}" }},
+       "author": {{ "@id": "{AUTHOR_ID}" }} }}
   ]
 }}
 </script>
