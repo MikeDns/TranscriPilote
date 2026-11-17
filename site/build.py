@@ -5,6 +5,9 @@ Les pages partagent l'en-tête, le pied de page et les métadonnées ; le conten
 ici dans les deux langues, côte à côte, pour qu'elles restent alignées. Les captures d'écran sont dans
 docs/assets/shots/<langue>/ (vraies captures de l'application, thème clair).
 """
+import json
+import re
+import urllib.request
 from datetime import date
 from html import escape
 from pathlib import Path
@@ -204,11 +207,62 @@ def page(lang, key, title, description, body, extra_head=""):
 '''
 
 
+# Total des installateurs téléchargés, calculé à la génération comme le fait
+# site.js : les robots qui n'exécutent pas JavaScript voient ainsi un chiffre
+# réel, que le script remet ensuite à jour en direct. None si l'API GitHub ne
+# répond pas : le compteur reste alors masqué, comme avant.
+SETUP_ASSET = re.compile(r"^TranscriPilote-Setup-.+\.exe$")
+
+
+def count_downloads():
+    url = "https://api.github.com/repos/MikeDns/TranscriPilote/releases?per_page=100"
+    request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json",
+                                                   "User-Agent": "TranscriPilote-site-build"})
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            releases = json.load(response)
+    except Exception as error:  # réseau, quota de l'API…
+        print("compteur de téléchargements indisponible :", error)
+        return None
+    return sum(asset.get("download_count", 0)
+               for release in releases if not release.get("draft") and not release.get("prerelease")
+               for asset in release.get("assets", []) if SETUP_ASSET.match(asset.get("name", "")))
+
+
+DOWNLOADS = None
+
+
+def downloads_label(lang):
+    if DOWNLOADS is None:
+        return ""
+    sep = "\u202f" if lang == "fr" else ","
+    number = f"{DOWNLOADS:,}".replace(",", sep)
+    word = "téléchargement" if lang == "fr" else "download"
+    return f"{number} {word}{'s' if DOWNLOADS > 1 else ''}"
+
+
+def downloads_count(lang):
+    label = downloads_label(lang)
+    hidden = "" if label else " hidden"
+    return f'<p class="downloads-count" data-downloads{hidden} aria-live="polite">{label}</p>'
+
+
+def json_script(data):
+    """Bloc JSON-LD sûr : « </ » est neutralisé pour ne jamais fermer la balise."""
+    return ('<script type="application/ld+json">\n'
+            + json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
+            + "\n</script>")
+
+
 def jsonld(lang):
     desc = ("Application Windows gratuite de transcription, de résumé et d'analyse de réunions, qui fonctionne entièrement sur le PC, hors ligne."
             if lang == "fr" else
             "Free Windows app that transcribes, summarizes and analyses meetings, entirely on the PC, offline.")
     url = BASE if lang == "fr" else BASE + "en/"
+    downloads_stat = ("" if DOWNLOADS is None else
+                      ',\n       "interactionStatistic": { "@type": "InteractionCounter", '
+                      '"interactionType": "https://schema.org/DownloadAction", '
+                      f'"userInteractionCount": {DOWNLOADS} }}')
     return f'''<script type="application/ld+json">
 {{
   "@context": "https://schema.org",
@@ -225,7 +279,7 @@ def jsonld(lang):
        "offers": {{ "@type": "Offer", "price": "0", "priceCurrency": "EUR" }},
        "downloadUrl": "{LATEST}", "url": "{url}", "image": "{BASE}assets/social-preview.png",
        "publisher": {{ "@id": "{AUTHOR_ID}" }},
-       "author": {{ "@id": "{AUTHOR_ID}" }} }}
+       "author": {{ "@id": "{AUTHOR_ID}" }}{downloads_stat} }}
   ]
 }}
 </script>
@@ -408,7 +462,7 @@ def home(lang):
     <div class="wrap closing-inner">
         <div><h2>{T['cta_title']}</h2><p>{T['cta_lead']}</p></div>
         <div class="closing-cta">{download_button(lang)}<p class="meta" data-version="{T['meta']}">{T['meta']}</p>
-            <p class="downloads-count" data-downloads hidden aria-live="polite"></p></div>
+            {downloads_count(lang)}</div>
     </div>
 </section>'''
     return page(lang, "home", title, desc, body, jsonld(lang))
@@ -563,7 +617,7 @@ def download(lang):
         <p class="lead">{"Gratuit, pour Windows 10 et 11. L'installation se fait dans votre profil, sans droits administrateur." if fr else "Free, for Windows 10 and 11. Installs in your profile, with no admin rights."}</p>
         <div class="cta">{download_button(lang)}</div>
         <p class="meta" data-version="{meta}">{meta}</p>
-        <p class="downloads-count" data-downloads hidden aria-live="polite"></p>
+        {downloads_count(lang)}
     </div></section>
     <section class="section section-tight"><div class="wrap narrow">
         <h2 class="h-sm">{"Installation" if fr else "Installation"}</h2>
@@ -629,9 +683,16 @@ def faq(lang):
             f'A question that is not here? <a href="{ISSUES}">Ask it on the project page</a>.')
     body = page_head("Questions fréquentes" if fr else "Frequently asked questions", lead) + \
         f'<section class="section section-tight"><div class="wrap narrow"><div class="faq">{qa}</div></div></section>'
+    faq_ld = json_script({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "inLanguage": lang,
+        "mainEntity": [{"@type": "Question", "name": q,
+                        "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in items],
+    })
     return page(lang, "faq", "Questions fréquentes – TranscriPilote" if fr else "FAQ – TranscriPilote",
                 "Réponses aux questions fréquentes sur TranscriPilote : gratuité, confidentialité, langues, mises à jour." if fr else
-                "Answers to common questions about TranscriPilote: price, privacy, languages, updates.", body)
+                "Answers to common questions about TranscriPilote: price, privacy, languages, updates.", body, faq_ld)
 
 
 def privacy(lang):
@@ -741,6 +802,8 @@ def sitemap():
 
 
 def main():
+    global DOWNLOADS
+    DOWNLOADS = count_downloads()
     builders = {"home": home, "features": features, "shots": shots, "download": download, "news": news, "faq": faq,
                 "privacy": privacy, "legal": legal}
     for key, (fr_file, en_file) in PAGES.items():
@@ -749,7 +812,7 @@ def main():
     for f, target in REDIRECTS.items():
         (DOCS / f).write_text(redirect(target, "en" if f.startswith("en/") else "fr"), encoding="utf-8")
     (DOCS / "sitemap.xml").write_text(sitemap(), encoding="utf-8")
-    print("site généré :", len(PAGES) * 2, "pages")
+    print("site généré :", len(PAGES) * 2, "pages ; téléchargements :", DOWNLOADS)
 
 
 if __name__ == "__main__":
