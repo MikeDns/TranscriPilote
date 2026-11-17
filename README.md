@@ -13,13 +13,13 @@ Aucun cloud, aucun abonnement, aucune donnée envoyée à un tiers.
 ![Hors ligne](https://img.shields.io/badge/fonctionne-hors%20ligne-3ddc84)
 ![Gratuit](https://img.shields.io/badge/gratuit-oui-7c6cf0)
 
-### [Télécharger TranscriPilote](https://mikedns.github.io/TranscriPilote/telecharger.html)
+### [Télécharger TranscriPilote](https://transcripilote.mikedansou.me/telecharger.html)
 
-**Site officiel : [mikedns.github.io/TranscriPilote](https://mikedns.github.io/TranscriPilote/)**
+**Site officiel : [transcripilote.mikedansou.me](https://transcripilote.mikedansou.me/)**
 
 [Signaler un problème](https://github.com/MikeDns/TranscriPilote/issues/new?template=bug_report.yml) ·
 [Proposer une idée](https://github.com/MikeDns/TranscriPilote/issues/new?template=feature_request.yml) ·
-[Nouveautés](https://mikedns.github.io/TranscriPilote/nouveautes.html) ·
+[Nouveautés](https://transcripilote.mikedansou.me/nouveautes.html) ·
 [Contact](https://mikedansou.me/contact/)
 
 </div>
@@ -53,7 +53,7 @@ et **sans droits administrateur** : idéal pour un poste professionnel ou des é
 environ 10 Go d'espace disque. Pour les résumés et la discussion, installez aussi
 [Ollama](https://ollama.com/download), gratuit : TranscriPilote le configure tout seul.
 
-1. Téléchargez l'installateur depuis la [page de téléchargement](https://mikedns.github.io/TranscriPilote/telecharger.html).
+1. Téléchargez l'installateur depuis la [page de téléchargement](https://transcripilote.mikedansou.me/telecharger.html).
 2. Lancez-le : l'installation se fait dans votre profil Windows, sans droits administrateur.
 3. Au premier lancement, TranscriPilote se prépare : quelques minutes, une seule fois.
    Une visite guidée facultative vous présente ensuite chaque fonction.
@@ -101,7 +101,7 @@ La qualité « Équilibré » est le meilleur compromis ; « Précis » et « Tr
 Vérifiez votre connexion internet puis relancez TranscriPilote : la préparation reprend là où elle s'est arrêtée.
 </details>
 
-Plus de réponses dans la [FAQ du site](https://mikedns.github.io/TranscriPilote/faq.html).
+Plus de réponses dans la [FAQ du site](https://transcripilote.mikedansou.me/faq.html).
 
 ## Assistance
 

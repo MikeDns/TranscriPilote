@@ -15,7 +15,11 @@ from pathlib import Path
 import illustrations as ill
 
 DOCS = Path(__file__).resolve().parent.parent / "docs"
-BASE = "https://mikedns.github.io/TranscriPilote/"
+# Domaine personnalisé (GitHub Pages) : l'ancienne adresse
+# mikedns.github.io/TranscriPilote/ y redirige automatiquement, ce qui garde
+# valides les liens des versions déjà installées.
+DOMAIN = "transcripilote.mikedansou.me"
+BASE = f"https://{DOMAIN}/"
 RELEASES = "https://github.com/MikeDns/TranscriPilote/releases"
 LATEST = RELEASES + "/latest"
 ISSUES = "https://github.com/MikeDns/TranscriPilote/issues/new/choose"
@@ -812,6 +816,10 @@ def main():
     for f, target in REDIRECTS.items():
         (DOCS / f).write_text(redirect(target, "en" if f.startswith("en/") else "fr"), encoding="utf-8")
     (DOCS / "sitemap.xml").write_text(sitemap(), encoding="utf-8")
+    # À la racine du domaine, robots.txt est enfin lu par les moteurs.
+    (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n", encoding="utf-8")
+    # Fichier lu par GitHub Pages pour servir le site sur le domaine personnalisé.
+    (DOCS / "CNAME").write_text(DOMAIN + "\n", encoding="utf-8")
     print("site généré :", len(PAGES) * 2, "pages ; téléchargements :", DOWNLOADS)
 
 
