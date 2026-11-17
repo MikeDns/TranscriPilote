@@ -157,9 +157,30 @@ def footer(lang):
 </div></footer>'''
 
 
+def page_ld(lang, key, title, description, me):
+    """JSON-LD des pages autres que l'accueil : la page, son fil d'Ariane et le
+    logiciel dont elle parle (même @id que sur l'accueil)."""
+    if key == "home":
+        return ""
+    home = BASE if lang == "fr" else BASE + "en/"
+    return json_script({
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "WebPage", "@id": abs_url(me) + "#page", "url": abs_url(me), "name": title,
+             "description": description, "inLanguage": lang,
+             "isPartOf": {"@id": home + "#site"}, "about": {"@id": home + "#app"},
+             "author": {"@id": AUTHOR_ID}},
+            {"@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "TranscriPilote", "item": home},
+                {"@type": "ListItem", "position": 2, "name": title.split(" – ")[0], "item": abs_url(me)}]},
+        ],
+    }) + "\n"
+
+
 def page(lang, key, title, description, body, extra_head=""):
     fr_file, en_file = PAGES[key]
     me = fr_file if lang == "fr" else en_file
+    extra_head = page_ld(lang, key, title, description, me) + extra_head
     pre = "" if lang == "fr" else "../"
     og_locale = "fr_FR" if lang == "fr" else "en_GB"
     return f'''<!doctype html>
@@ -173,7 +194,7 @@ def page(lang, key, title, description, body, extra_head=""):
 <link rel="alternate" hreflang="fr" href="{abs_url(fr_file)}">
 <link rel="alternate" hreflang="en" href="{abs_url(en_file)}">
 <link rel="alternate" hreflang="x-default" href="{abs_url(fr_file)}">
-<meta name="author" content="Mike DANSOU">
+<meta name="author" content="Mike Dansou">
 <meta name="publisher" content="{PUBLISHER}">
 <meta name="google-site-verification" content="O0swOZqCXVkIEmv03IDjbLMx8_pzLGd5VeqcyB9ZoxQ">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -805,6 +826,33 @@ def sitemap():
     return "\n".join(out) + "\n"
 
 
+def llms_txt():
+    downloads = "" if DOWNLOADS is None else f" Installateur téléchargé {DOWNLOADS} fois à ce jour."
+    return f"""# TranscriPilote
+
+> Application Windows gratuite qui enregistre, transcrit, résume et analyse les réunions entièrement sur le PC, hors ligne : aucun mot ne quitte l'ordinateur.{downloads}
+
+TranscriPilote est publié sous la signature MikeDns Labs, nom sous lequel Mike Dansou (Data & AI engineer, {AUTHOR_URL}) publie ses logiciels. MikeDns Labs n'est pas une société.
+
+## Pages
+
+- [Accueil]({BASE}) : présentation, points forts.
+- [Fonctionnalités]({abs_url(PAGES["features"][0])})
+- [Captures d'écran]({abs_url(PAGES["shots"][0])})
+- [Télécharger]({abs_url(PAGES["download"][0])}) : installateur Windows 10/11 et configuration requise.
+- [Nouveautés]({abs_url(PAGES["news"][0])}) : notes des dernières versions.
+- [Questions fréquentes]({abs_url(PAGES["faq"][0])}) : gratuité, confidentialité, langues, mises à jour.
+- [Confidentialité]({abs_url(PAGES["privacy"][0])})
+- [English version]({BASE}en/)
+
+## Liens
+
+- Versions publiées : {RELEASES}
+- Signaler un problème : {ISSUES}
+- Auteur et contact : {AUTHOR_URL} et {CONTACT}
+"""
+
+
 def main():
     global DOWNLOADS
     DOWNLOADS = count_downloads()
@@ -818,6 +866,7 @@ def main():
     (DOCS / "sitemap.xml").write_text(sitemap(), encoding="utf-8")
     # À la racine du domaine, robots.txt est enfin lu par les moteurs.
     (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n", encoding="utf-8")
+    (DOCS / "llms.txt").write_text(llms_txt(), encoding="utf-8")
     # Fichier lu par GitHub Pages pour servir le site sur le domaine personnalisé.
     (DOCS / "CNAME").write_text(DOMAIN + "\n", encoding="utf-8")
     print("site généré :", len(PAGES) * 2, "pages ; téléchargements :", DOWNLOADS)

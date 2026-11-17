@@ -1,0 +1,22 @@
+# TranscriPilote
+
+> Application Windows gratuite qui enregistre, transcrit, résume et analyse les réunions entièrement sur le PC, hors ligne : aucun mot ne quitte l'ordinateur. Installateur téléchargé 47 fois à ce jour.
+
+TranscriPilote est publié sous la signature MikeDns Labs, nom sous lequel Mike Dansou (Data & AI engineer, https://mikedansou.me/) publie ses logiciels. MikeDns Labs n'est pas une société.
+
+## Pages
+
+- [Accueil](https://transcripilote.mikedansou.me/) : présentation, points forts.
+- [Fonctionnalités](https://transcripilote.mikedansou.me/fonctionnalites.html)
+- [Captures d'écran](https://transcripilote.mikedansou.me/captures.html)
+- [Télécharger](https://transcripilote.mikedansou.me/telecharger.html) : installateur Windows 10/11 et configuration requise.
+- [Nouveautés](https://transcripilote.mikedansou.me/nouveautes.html) : notes des dernières versions.
+- [Questions fréquentes](https://transcripilote.mikedansou.me/faq.html) : gratuité, confidentialité, langues, mises à jour.
+- [Confidentialité](https://transcripilote.mikedansou.me/confidentialite.html)
+- [English version](https://transcripilote.mikedansou.me/en/)
+
+## Liens
+
+- Versions publiées : https://github.com/MikeDns/TranscriPilote/releases
+- Signaler un problème : https://github.com/MikeDns/TranscriPilote/issues/new/choose
+- Auteur et contact : https://mikedansou.me/ et https://mikedansou.me/contact/
