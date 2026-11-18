@@ -44,7 +44,7 @@ et **sans droits administrateur** : idéal pour un poste professionnel ou des é
 | **Import** | Fichiers audio et vidéo : MP3, M4A, WAV, MP4, MKV, MOV… |
 | **Historique** | Toutes vos réunions, avec recherche dans ce qui a été dit |
 | **Exports** | Markdown, Excel, texte et sous-titres |
-| **Sauvegarde** | Facultative, vers **votre** Google Drive ou OneDrive |
+| **Sauvegarde** | Facultative, vers **votre** Google Drive ou OneDrive, avec un dossier par ordinateur |
 | **Mises à jour** | Proposées dans l'application, installées quand vous le décidez, retour arrière possible |
 
 ## Installation

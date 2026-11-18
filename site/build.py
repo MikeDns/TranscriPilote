@@ -542,9 +542,9 @@ def features(lang):
          "Historique et exports" if fr else "History and exports",
          "Retrouvez tout, partagez facilement" if fr else "Find everything, share easily",
          ["Recherche dans toutes les transcriptions", "Export Markdown, Excel, texte et sous-titres", "Base de données complète, pour Power BI, PostgreSQL ou Python",
-          "Sauvegarde facultative vers votre Google Drive ou OneDrive"] if fr else
+          "Sauvegarde facultative vers votre Google Drive ou OneDrive, un dossier par ordinateur"] if fr else
          ["Search across all transcripts", "Export to Markdown, Excel, text and subtitles", "Full database, for Power BI, PostgreSQL or Python",
-          "Optional backup to your Google Drive or OneDrive"]),
+          "Optional backup to your Google Drive or OneDrive, one folder per computer"]),
     ]
     rows = "".join(
         f'''<article class="feature" id="{fid}">
@@ -680,6 +680,7 @@ FAQ_FR = [
     ("Combien de temps prend une transcription ?", "Sans carte graphique, comptez entre la moitié et deux fois la durée de l'enregistrement selon le niveau de précision choisi. La transcription se fait en arrière-plan : vous pouvez continuer à utiliser l'application."),
     ("J'ai oublié d'arrêter l'enregistrement. Que faire ?", "Dans l'historique, le bouton ciseaux ouvre « Découper la réunion » : choisissez la partie utile à l'heure près, puis transcrivez seulement elle ou coupez l'enregistrement. Dans les réglages, des aides facultatives peuvent aussi l'arrêter quand plus personne ne parle."),
     ("Comment fonctionnent les mises à jour ?", "TranscriPilote vérifie au démarrage si une nouvelle version existe et la prépare en arrière-plan. Elle s'installe quand vous le décidez, jamais pendant un enregistrement ou une transcription, sans réinstaller ni perdre vos données."),
+    ("Comment sauvegarder mes réunions ?", "Dans Réglages, « Copie de sécurité », connectez votre propre Google Drive ou OneDrive : une seule fois, dans votre navigateur. Ensuite, « Sauvegarder maintenant » copie vos réunions, transcriptions, résumés et enregistrements audio dans un dossier « TranscriPilote » de votre compte. Chaque ordinateur a son propre sous-dossier, à son nom : deux PC connectés au même compte ne s'effacent donc jamais. La sauvegarde est facultative, et vos données ne passent par aucun serveur : elles vont de votre PC à votre compte."),
     ("Y a-t-il un tutoriel ?", "Oui. Au premier lancement, TranscriPilote propose une visite guidée d'environ une minute, que vous pouvez refuser. Elle se relance à tout moment avec le bouton d'aide en bas du menu."),
     ("Comment contacter l'auteur ?", f"Par la <a href=\"{CONTACT}\">page Contact</a>, pour une question, un partenariat ou un retour d'expérience. Pour signaler un problème dans l'application, utilisez plutôt la <a href=\"{ISSUES}\">page de signalement</a>."),
     ("TranscriPilote s'écrit-il « Transcri Pilote » ?", "Le nom officiel s'écrit en un mot : TranscriPilote. On le trouve parfois écrit « Transcri Pilote » ou « Transcrit Pilote »."),
@@ -694,6 +695,7 @@ FAQ_EN = [
     ("How long does a transcription take?", "Without a graphics card, allow between half and twice the length of the recording, depending on the accuracy level. Transcription runs in the background: you can keep using the app."),
     ("I forgot to stop the recording. What can I do?", "In the history, the scissors button opens “Trim the meeting”: choose the useful part to the minute, then transcribe only that part or cut the recording. Optional aids in the settings can also stop it when nobody is speaking."),
     ("How do updates work?", "TranscriPilote checks for a new version at startup and prepares it in the background. It installs when you decide, never during a recording or a transcription, without reinstalling or losing data."),
+    ("How do I back up my meetings?", "In Settings, “Backup copy”, connect your own Google Drive or OneDrive: once, in your browser. Then “Back up now” copies your meetings, transcripts, summaries and audio recordings to a “TranscriPilote” folder in your account. Each computer gets its own subfolder, named after it, so two PCs connected to the same account never erase each other. Backup is optional, and your data goes through no server of ours: it goes from your PC to your account."),
     ("Is there a tutorial?", "Yes. On first launch, TranscriPilote offers a guided tour of about one minute, which you can decline. Restart it at any time with the help button at the bottom of the menu."),
     ("How do I contact the author?", f"Through the <a href=\"{CONTACT}\">Contact page</a>, for a question, a partnership or feedback. To report a problem in the app, use the <a href=\"{ISSUES}\">issue page</a> instead."),
     ("Is it spelled “Transcri Pilote”?", "The official name is one word: TranscriPilote. It is sometimes written “Transcri Pilote” or “Transcrit Pilote”."),

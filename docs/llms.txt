@@ -1,6 +1,6 @@
 # TranscriPilote
 
-> Application Windows gratuite qui enregistre, transcrit, résume et analyse les réunions entièrement sur le PC, hors ligne : aucun mot ne quitte l'ordinateur. Installateur téléchargé 47 fois à ce jour.
+> Application Windows gratuite qui enregistre, transcrit, résume et analyse les réunions entièrement sur le PC, hors ligne : aucun mot ne quitte l'ordinateur. Installateur téléchargé 49 fois à ce jour.
 
 TranscriPilote est publié sous la signature MikeDns Labs, nom sous lequel Mike Dansou (Data & AI engineer, https://mikedansou.me/) publie ses logiciels. MikeDns Labs n'est pas une société.
 
